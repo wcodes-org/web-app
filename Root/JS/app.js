@@ -185,7 +185,8 @@
     });
 
     DOM.decodeInput.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      if (((e.ctrlKey || e.metaKey) && e.key === 'Enter') || (e.key === 'Enter' && !e.shiftKey)) {
+        e.preventDefault();
         executeTransform(true);
       }
     });

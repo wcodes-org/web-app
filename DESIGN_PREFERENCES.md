@@ -83,3 +83,41 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Dropdown menu interface with corresponding iconography.
 - **Synchronized State**:
   - Changes must synchronize between local app keys (`wcode_theme`) and the Cutie framework theme keys (`cutie-dark-mode`), updating `data-theme-preference`, `data-theme-resolved`, and root `.dark-mode` classes in unison.
+
+---
+
+## 10. Zero Header Layout Shift & Viewport Stability
+- **Pixel-Locked Header Across All Pages**:
+  - Transitioning between the root encoder app (`/`) and Cutie content pages (`/about`, `/features`, `/faq`, etc.) must exhibit **zero layout shift** in the header.
+  - Slogan ("digital words"), brand logo, hamburger menu button, and divider coordinates remain completely static down to the exact pixel. Only the top-right contextual utility icons change.
+- **Unified Outer Wrapper Hierarchy**:
+  - `html`: `min-height: 100%; margin-left: calc(100vw - 100%);` (prevents horizontal jumps when scrollbar appears/disappears).
+  - `body`: `min-height: 100%; margin: 0 auto; display: flex; flex-direction: column; overflow-x: hidden;`.
+  - `#main-wrapper`: `max-width: 1440px; padding: 0 20px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; flex: auto;`.
+  - `#content-wrapper`: `display: flex; flex-direction: column; flex: 1 0 auto; overflow: visible; width: 100%;`.
+  - `#header-wrapper`: `max-width: 1240px; height: 142px; margin: 0 auto; padding: 0; flex: none; width: 100%; display: flow-root;`.
+
+---
+
+## 11. Type Bar Hierarchy & Singleton "Auto" Anchor
+- **Auto as Singleton Option**:
+  - "Time" occupies the first position among explicit data types, and "Auto" is positioned as the final, singleton option wrapped onto its own line (`.types-bar-break { flex-basis: 100%; width: 100%; height: 0; }`).
+  - Visually anchors "Auto" as the primary default detection mode, centered cleanly below the specific format options.
+
+---
+
+## 12. Input Panel Stability (Zero Layout Jump between Modes)
+- **Dimensional Equivalence**:
+  - Toggling between **Encode** and **Decode** modes must produce **zero layout shift or vertical jump** in the input studio.
+  - Both `.text-input-field` (Encode) and `.wcode-input-enclosure` (Decode) share uniform dimensions (`height: 104px; box-sizing: border-box; border-radius: var(--radius-md);`).
+  - Decode input uses a multi-line `<textarea>` inside `.wcode-input-enclosure` with flanking slash indicators (`\ ... /`) to comfortably handle long word streams without altering container geometry.
+- **Zero-Footprint Collapsed States**:
+  - The live word suggestions container collapses completely when empty (`.suggestions-container:empty { display: none; min-height: 0; margin: 0; padding: 0; }`), ensuring identical bottom offsets for controls and action buttons across both modes.
+
+---
+
+## 13. Center Tile for About (Cutie Framework Parity)
+- **Prominent Navigation Tile**:
+  - Positioned centrally above the studio workspace card (`.center-tile-area` containing `.item_block.grow`).
+  - Matches the Cutie framework tile pattern (`width: 158px; height: 64px; border-radius: 5px; background: #f6f6f6; color: #69b7cf;`), including interactive hover scaling (`.grow:hover { transform: scale(1.1); }`) and full dark mode theming (`background: #224; border-color: #2a2a4a;`).
+

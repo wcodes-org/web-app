@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="/CSS/app.css">
 </head>
 <body>
+  <div id="main-wrapper">
+    <div id="content-wrapper">
 
   <!-- Traditional Header matching /about -->
   <div id="header-wrapper">
@@ -102,6 +104,13 @@
   </div>
   <div id="header-wrapper-divider"></div>
 
+  <!-- Center Tile for About (Cutie style) -->
+  <div class="center-tile-area">
+    <a class="XURL item_block grow" href="/about" data-target="about" data-title="About">
+      <div>About</div>
+    </a>
+  </div>
+
   <!-- Main Content -->
   <main class="main-content">
 
@@ -119,11 +128,10 @@
       </div>
     </div>
 
-    <!-- Category / Data Types (stacked, no scroll bar) -->
     <div class="types-bar" role="radiogroup" aria-label="Data Type">
-      <button type="button" class="type-pill active" data-type="auto" role="radio" aria-checked="true">
-        <svg viewBox="0 0 24 24"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.03 5.49l-2.12-2.12 1.41-1.41 2.12 2.12-1.41 1.41z"/></svg>
-        <span>Auto</span>
+      <button type="button" class="type-pill" data-type="time" role="radio" aria-checked="false">
+        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        <span>Time</span>
       </button>
 
       <button type="button" class="type-pill" data-type="text" role="radio" aria-checked="false">
@@ -161,9 +169,11 @@
         <span>Date</span>
       </button>
 
-      <button type="button" class="type-pill" data-type="time" role="radio" aria-checked="false">
-        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-        <span>Time</span>
+      <div class="types-bar-break"></div>
+
+      <button type="button" class="type-pill active" data-type="auto" role="radio" aria-checked="true">
+        <svg viewBox="0 0 24 24"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.03 5.49l-2.12-2.12 1.41-1.41 2.12 2.12-1.41 1.41z"/></svg>
+        <span>Auto</span>
       </button>
     </div>
 
@@ -197,7 +207,7 @@
         <div id="decode-input-view" class="input-viewport" style="display: none;">
           <div class="wcode-input-enclosure">
             <span class="wcode-slash">\</span>
-            <input id="decode-input" class="wcode-text-field" type="text" placeholder="cat apple mango..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <textarea id="decode-input" class="wcode-text-field" rows="3" placeholder="cat apple mango..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
             <span class="wcode-slash">/</span>
           </div>
           <div id="suggestions-box" class="suggestions-container" aria-live="polite"></div>
@@ -364,6 +374,9 @@
         <a class="content-link-gray" href="/license">Copyright &copy; 2026</a>
         <a class="content-link" href="/about">WCode</a>
       </div>
+    </div>
+  </div>
+
     </div>
   </div>
 

@@ -10,7 +10,7 @@
     mode: 'encode', // 'encode' | 'decode'
     type: 'auto',   // 'auto' | 'text' | 'number' | 'phone' | 'email' | 'location' | 'url' | 'date' | 'time'
     checksum: false,
-    theme: localStorage.getItem('wcode_theme') || 'system',
+    theme: localStorage.getItem('cutie-dark-mode') || localStorage.getItem('wcode_theme') || 'system',
     saved: JSON.parse(localStorage.getItem('wcode_saved') || '[]'),
     core: null
   };
@@ -59,7 +59,10 @@
     DOM.swapBtn = document.getElementById('tool-swap');
     
     // Theme & Drawer & Modal
-    DOM.themeBtn = document.getElementById('theme-toggle-btn');
+    DOM.darkModeBtn = document.getElementById('darkmode-button');
+    DOM.themeMenu = document.getElementById('theme-menu');
+    DOM.themeOptions = document.querySelectorAll('.theme-option');
+    DOM.themeSelector = document.getElementById('theme-selector');
     DOM.drawerBtn = document.getElementById('drawer-toggle-btn');
     DOM.drawerBadge = document.getElementById('drawer-badge');
     DOM.drawer = document.getElementById('history-drawer');
@@ -210,7 +213,7 @@
         if (state.mode === 'encode') {
           DOM.encodeInput.value = text;
         } else {
-          DOM.decodeInput.value = text.replace(/[\\\/]/g, ' ').trim();
+          DOM.decodeInput.value = text.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '').trim();
         }
         executeTransform(true);
         showToast('Pasted from clipboard');
@@ -226,8 +229,52 @@
     DOM.saveBtn.addEventListener('click', saveResult);
     DOM.swapBtn.addEventListener('click', swapMode);
 
-    // Theme toggle
-    DOM.themeBtn.addEventListener('click', cycleTheme);
+    // Traditional Theme Selector
+    if (DOM.darkModeBtn && DOM.themeMenu) {
+      DOM.darkModeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !DOM.themeMenu.hidden;
+        DOM.themeMenu.hidden = isOpen;
+        DOM.darkModeBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      DOM.darkModeBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          DOM.themeMenu.hidden = false;
+          DOM.darkModeBtn.setAttribute('aria-expanded', 'true');
+          const firstOption = DOM.themeMenu.querySelector('.theme-option');
+          if (firstOption) firstOption.focus();
+        }
+      });
+
+      DOM.themeMenu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          DOM.themeMenu.hidden = true;
+          DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
+          DOM.darkModeBtn.focus();
+        }
+      });
+
+      if (DOM.themeOptions) {
+        DOM.themeOptions.forEach(opt => {
+          opt.addEventListener('click', () => {
+            const theme = opt.getAttribute('data-theme');
+            applyTheme(theme);
+            DOM.themeMenu.hidden = true;
+            DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
+            DOM.darkModeBtn.focus();
+          });
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (DOM.themeSelector && !DOM.themeSelector.contains(e.target)) {
+          DOM.themeMenu.hidden = true;
+          DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
 
     // Drawer toggle
     DOM.drawerBtn.addEventListener('click', () => openDrawer(true));
@@ -350,7 +397,7 @@
 
   // Autocomplete / Suggestions for Decode Mode
   function handleDecodeSuggestions() {
-    const text = DOM.decodeInput.value;
+    const text = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '');
     const tokens = text.toLowerCase().split(/\s+/);
     const lastToken = tokens[tokens.length - 1];
 
@@ -415,7 +462,7 @@
         if (showErrorToast) showToast(err.message, 'error');
       }
     } else {
-      const rawWords = DOM.decodeInput.value.trim();
+      const rawWords = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '').trim();
       if (!rawWords) {
         if (showErrorToast) showToast('Please enter WCode words to decode', 'warning');
         return;
@@ -704,33 +751,60 @@
   }
 
   // Theme Management
-  function cycleTheme() {
-    const modes = ['system', 'light', 'dark'];
-    const next = modes[(modes.indexOf(state.theme) + 1) % modes.length];
-    applyTheme(next);
-  }
-
   function applyTheme(theme) {
+    if (theme !== 'light' && theme !== 'dark' && theme !== 'system') {
+      theme = 'system';
+    }
     state.theme = theme;
-    localStorage.setItem('wcode_theme', theme);
-    
+    try {
+      localStorage.setItem('cutie-dark-mode', theme);
+      localStorage.setItem('wcode_theme', theme);
+    } catch (e) {}
+
     let effective = theme;
     if (theme === 'system') {
-      effective = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      effective = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
+    const isDark = effective === 'dark';
+    document.documentElement.classList.toggle('dark-mode', isDark);
+    document.documentElement.setAttribute('data-theme-preference', theme);
+    document.documentElement.setAttribute('data-theme-resolved', effective);
     document.documentElement.setAttribute('data-theme', effective);
-    updateThemeIcon(theme);
+    document.documentElement.style.colorScheme = effective;
+
+    const metaThemeColor = document.querySelector("meta[name='theme-color']");
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDark ? '#1a1a2e' : '#ffffff');
+    }
+
+    if (DOM.themeOptions) {
+      DOM.themeOptions.forEach(opt => {
+        const selected = opt.getAttribute('data-theme') === theme;
+        opt.classList.toggle('theme-option-active', selected);
+        opt.setAttribute('aria-checked', selected ? 'true' : 'false');
+      });
+    }
+
+    if (DOM.darkModeBtn) {
+      const prefLabel = theme.charAt(0).toUpperCase() + theme.slice(1);
+      const resLabel = effective.charAt(0).toUpperCase() + effective.slice(1);
+      const label = theme === 'system' ? `${prefLabel} (${resLabel})` : resLabel;
+      DOM.darkModeBtn.setAttribute('aria-label', `Theme: ${label}`);
+      DOM.darkModeBtn.setAttribute('title', `Theme: ${label}`);
+    }
   }
 
-  function updateThemeIcon(theme) {
-    const icons = {
-      light: `<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>`,
-      dark: `<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>`,
-      system: `<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>`
+  if (window.matchMedia) {
+    const themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemChange = () => {
+      if (state.theme === 'system') applyTheme('system');
     };
-    DOM.themeBtn.innerHTML = icons[theme] || icons.system;
-    DOM.themeBtn.title = `Theme: ${theme.toUpperCase()}`;
+    if (themeMediaQuery.addEventListener) {
+      themeMediaQuery.addEventListener('change', handleSystemChange);
+    } else if (themeMediaQuery.addListener) {
+      themeMediaQuery.addListener(handleSystemChange);
+    }
   }
 
   // Toast Notifications

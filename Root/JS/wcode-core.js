@@ -165,8 +165,12 @@
         throw new Error('Message must be a string of words');
       }
 
-      // Sanitize input: strip leading/trailing slashes, punctuation
-      const cleanMsg = message.replace(/[\\\/,;.]/g, ' ').trim().toLowerCase();
+      // Sanitize input: swallow leading/trailing slashes, dashes/hyphens, and spaces
+      const cleanMsg = message
+        .replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '')
+        .replace(/[\\\/,;.–—\-]/g, ' ')
+        .trim()
+        .toLowerCase();
       const tokens = cleanMsg.split(/\s+/).filter(t => t.length > 0);
 
       if (tokens.length === 0) {

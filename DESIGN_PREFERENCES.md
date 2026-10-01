@@ -142,17 +142,23 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ---
 
 ## 16. Studio Card De-Cluttering & Externalized Controls
-- **External Label & Primary Action**:
-  - **Header Label Outside**: The input stage indicator ("Data to encode" / "WCode words") sits outside, directly above `#studio-card` (`.studio-label-outside`), paired with contextual helper buttons (e.g. "My GPS", "Now") when applicable.
-  - **Controls Outside**: The error check toggle and main action button ("Encode to WCode" / "Decode WCode") are placed outside directly below `#studio-card` (`.controls-bar-outside`), leaving the card canvas strictly dedicated to data input.
-  - **Output Section**: The output area (`#output-section`) renders as an independent card beneath the outside action controls.
+- **Flat Text Input Stage Header**:
+  - The input stage indicator ("Data to encode" / "WCode words") sits outside directly above `#studio-card` (`.studio-label-outside`) as flat uppercase text without pill borders, backgrounds, or button-like outlines, paired with contextual helper buttons (e.g. "My GPS", "Now") when active.
+- **Card-Internal Error Check & Centered External Action**:
+  - **Error Check in Card**: The error check control is positioned within the input box region at the bottom of `#studio-card` (`.studio-card-options`), labeled simply **Error Check** (omitting technical "CRC-8" notation).
+  - **Centered Primary Action**: The main action button ("Encode to WCode" / "Decode WCode") sits centered outside directly beneath the input card (`.controls-bar-outside`).
+  - **Output Section**: The output area (`#output-section`) renders as an independent card beneath the centered action button.
 - **Right-Flank Input Actions**:
   - Clear and Paste buttons are vertically stacked beside the input field in `.input-actions-flank` matching the exact 104px height:
     - **Clear button (`#btn-clear`)**: Pinned to the top-right edge.
     - **Paste button (`#btn-paste`)**: Pinned to the bottom-right edge.
     - Both buttons use identical 36px circular footprints with subtle hover-activated backgrounds.
+- **Header Profile & Theme Integration (Wolo Parity)**:
+  - A circled Profile icon button (`#profile-button`) is placed at the top-right of the header bar (`#header-right-list`), matching Wolo's account architecture.
+  - Clicking the profile icon opens the Profile & Settings menu (`#profile-menu`) containing user identity ("Guest") and the **Appearance / Theme selector** (System, Light, Dark).
+  - The standalone theme selector is removed from the footer, leaving the bottom actions bar cleanly dedicated to the Info icon on the left, centered copyright, and History/Saved drawer toggle on the right.
 - **Root Bottom Copyright & Modal Parity**:
-  - The copyright notice (`Copyright © 2026 WCode`) is positioned at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Theme/Bookmark controls.
+  - The copyright notice (`Copyright © 2026 WCode`) is positioned at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
   - Info modal references the canonical vector brand asset (`/Resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
 
 

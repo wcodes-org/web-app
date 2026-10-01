@@ -58,7 +58,10 @@
     DOM.saveBtn = document.getElementById('tool-save');
     DOM.swapBtn = document.getElementById('tool-swap');
     
-    // Theme & Drawer & Modal
+    // Theme & Profile & Drawer & Modal
+    DOM.profileBtn = document.getElementById('profile-button');
+    DOM.profileMenu = document.getElementById('profile-menu');
+    DOM.profileSelector = document.getElementById('profile-selector');
     DOM.darkModeBtn = document.getElementById('darkmode-button');
     DOM.themeMenu = document.getElementById('theme-menu');
     DOM.themeOptions = document.querySelectorAll('.theme-option');
@@ -233,7 +236,60 @@
     DOM.saveBtn.addEventListener('click', saveResult);
     DOM.swapBtn.addEventListener('click', swapMode);
 
-    // Traditional Theme Selector
+    // Profile & Theme Menu (Header Profile Button)
+    if (DOM.profileBtn && DOM.profileMenu) {
+      DOM.profileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !DOM.profileMenu.hidden;
+        DOM.profileMenu.hidden = isOpen;
+        DOM.profileBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      DOM.profileBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          DOM.profileMenu.hidden = false;
+          DOM.profileBtn.setAttribute('aria-expanded', 'true');
+          const firstOption = DOM.profileMenu.querySelector('.theme-option');
+          if (firstOption) firstOption.focus();
+        }
+      });
+
+      DOM.profileMenu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          DOM.profileMenu.hidden = true;
+          DOM.profileBtn.setAttribute('aria-expanded', 'false');
+          DOM.profileBtn.focus();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (DOM.profileSelector && !DOM.profileSelector.contains(e.target)) {
+          DOM.profileMenu.hidden = true;
+          DOM.profileBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Theme Options Selection
+    if (DOM.themeOptions) {
+      DOM.themeOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const theme = opt.getAttribute('data-theme');
+          applyTheme(theme);
+          if (DOM.profileMenu) {
+            DOM.profileMenu.hidden = true;
+            if (DOM.profileBtn) DOM.profileBtn.setAttribute('aria-expanded', 'false');
+          }
+          if (DOM.themeMenu) {
+            DOM.themeMenu.hidden = true;
+            if (DOM.darkModeBtn) DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    }
+
+    // Fallback if standalone darkModeBtn exists on page
     if (DOM.darkModeBtn && DOM.themeMenu) {
       DOM.darkModeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -241,36 +297,6 @@
         DOM.themeMenu.hidden = isOpen;
         DOM.darkModeBtn.setAttribute('aria-expanded', String(!isOpen));
       });
-
-      DOM.darkModeBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          DOM.themeMenu.hidden = false;
-          DOM.darkModeBtn.setAttribute('aria-expanded', 'true');
-          const firstOption = DOM.themeMenu.querySelector('.theme-option');
-          if (firstOption) firstOption.focus();
-        }
-      });
-
-      DOM.themeMenu.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          DOM.themeMenu.hidden = true;
-          DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
-          DOM.darkModeBtn.focus();
-        }
-      });
-
-      if (DOM.themeOptions) {
-        DOM.themeOptions.forEach(opt => {
-          opt.addEventListener('click', () => {
-            const theme = opt.getAttribute('data-theme');
-            applyTheme(theme);
-            DOM.themeMenu.hidden = true;
-            DOM.darkModeBtn.setAttribute('aria-expanded', 'false');
-            DOM.darkModeBtn.focus();
-          });
-        });
-      }
 
       document.addEventListener('click', (e) => {
         if (DOM.themeSelector && !DOM.themeSelector.contains(e.target)) {
@@ -860,6 +886,14 @@
         opt.classList.toggle('theme-option-active', selected);
         opt.setAttribute('aria-checked', selected ? 'true' : 'false');
       });
+    }
+
+    if (DOM.profileBtn) {
+      const prefLabel = theme.charAt(0).toUpperCase() + theme.slice(1);
+      const resLabel = effective.charAt(0).toUpperCase() + effective.slice(1);
+      const label = theme === 'system' ? `${prefLabel} (${resLabel})` : resLabel;
+      DOM.profileBtn.setAttribute('aria-label', `Profile & Theme: ${label}`);
+      DOM.profileBtn.setAttribute('title', `Profile & Theme: ${label}`);
     }
 
     if (DOM.darkModeBtn) {

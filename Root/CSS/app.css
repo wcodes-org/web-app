@@ -263,7 +263,143 @@ a:hover {
   position: relative;
 }
 
-.header-action-icon {
+/* Header Profile & Account Settings */
+#profile-selector {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+
+#profile-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-sizing: content-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  margin: 12px 5px;
+  padding: 0;
+  color: #888;
+  cursor: pointer;
+  position: relative;
+  transition: all ease-out 0.3s;
+}
+
+#profile-button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  transition: fill ease-out 0.3s;
+}
+
+#profile-button:hover,
+#profile-button:hover svg {
+  color: #56b4d1;
+  fill: #56b4d1;
+}
+
+#profile-menu {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  min-width: 210px;
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  top: 48px;
+  z-index: 100;
+  animation: fadeIn 0.18s ease-out;
+}
+
+html.dark-mode #profile-menu,
+[data-theme="dark"] #profile-menu {
+  background: #222244;
+  border-color: #33335a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+#profile-menu[hidden] {
+  display: none;
+}
+
+.profile-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 8px;
+}
+
+.profile-menu-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-light);
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-menu-avatar svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.profile-menu-identity {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.profile-menu-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.profile-menu-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.profile-menu-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 6px 0;
+}
+
+html.dark-mode .profile-menu-divider,
+[data-theme="dark"] .profile-menu-divider {
+  background: #33335a;
+}
+
+.profile-menu-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  padding: 4px 8px 2px;
+  text-align: left;
+}
+
+.profile-theme-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+#theme-selector {
   appearance: none;
   background: transparent;
   border: 0;
@@ -763,8 +899,22 @@ html.dark-mode .item_block_text div,
   margin-bottom: 12px;
 }
 
-/* Equivalent rank styling for section headers */
-.input-label,
+/* Flat text section header for input */
+.input-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
 .output-badge {
   display: inline-flex;
   align-items: center;
@@ -1040,14 +1190,22 @@ html.dark-mode .paste-bar-btn:focus-visible,
   gap: 12px;
 }
 
+/* Card Options inside studio card */
+.studio-card-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+}
+
 .controls-bar-outside {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 14px;
+  justify-content: center;
+  margin-top: 16px;
   margin-bottom: 8px;
-  flex-wrap: wrap;
-  gap: 12px;
   padding: 0 4px;
 }
 
@@ -1846,16 +2004,8 @@ html.dark-mode .info-format-badge span {
   gap: 4px;
 }
 
-#footer-actions-bar .header-action-icon,
-#footer-actions-bar #darkmode-button {
+#footer-actions-bar .header-action-icon {
   margin: 6px 4px;
-}
-
-#footer-actions-bar #theme-menu {
-  bottom: calc(100% + 6px);
-  top: auto;
-  right: 0;
-  margin-bottom: 0;
 }
 
 @media (max-width: 540px) {

@@ -50,7 +50,6 @@
       <div id="notification" class="hide"></div>
     </div>
   </div>
-  <div id="header-wrapper-divider"></div>
 
   <!-- Main Content -->
   <main class="main-content">
@@ -59,11 +58,9 @@
     <div class="mode-switch-wrapper">
       <div class="mode-switch" role="tablist" aria-label="Mode">
         <button id="tab-encode" class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="encode">
-          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
           <span>Encode</span>
         </button>
         <button id="tab-decode" class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="decode">
-          <svg viewBox="0 0 24 24"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z"/></svg>
           <span>Decode</span>
         </button>
       </div>
@@ -249,30 +246,117 @@
     </div>
   </div>
 
-  <!-- Info Modal -->
+  <!-- Info Modal (Wolo Parity) -->
   <div id="info-modal" class="modal-overlay" aria-hidden="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">About WCode</h3>
+    <div class="modal-card info-dialog-card">
+      <div id="info-message-close" class="modal-close-wrapper">
         <button id="modal-close" class="icon-btn" type="button" aria-label="Close dialog">
           <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </div>
-      <div class="modal-body">
-        <p><strong>WCode</strong> is an encoding schema where digital data is mapped to a sequence of simple, unique nouns.</p>
-        <p>Unlike barcodes, WCodes use literal words that can be spoken, handwritten, memorized, or typed with zero ambiguity.</p>
-        <p><strong>Technology:</strong> Base-1024 encoding using 1024 unique nouns. Each word represents exactly 10 bits of data, with optional CRC-8 checksum verification.</p>
-        <p style="margin-top:16px;">
-          For documentation, use-cases, and specifications, visit the <a href="/about">About & Documentation page</a> or check the <a href="/wordlist">1024 WordList</a>.
-        </p>
+
+      <div class="info-dialog-header">
+        <div class="info-logo-row">
+          <a href="/" class="info-logo-link" aria-label="WCode">
+            <img src="/wcode.svg" alt="WCode" width="120" height="36" />
+          </a>
+        </div>
+        <div class="info-slogan">digital words</div>
       </div>
+
+      <!-- Intro View: Shown on First Login / Access -->
+      <div id="info-intro" class="info-view-section">
+        <p class="info-intro-text">
+          This web app requires anonymous cookies and various third-party services to function properly.
+          By continuing to use WCode you are agreeing to its <a class="link" href="/policy">cookie &amp; privacy policies</a>.
+        </p>
+        <div class="info-intro-action">
+          <button id="info_intro_close_button" class="button_highlight" type="button" aria-label="Proceed">
+            <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42L16.86 11H5v2z" fill="#ffffff"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Full Info View: Shown When Info Icon Clicked -->
+      <div id="info-full" class="info-view-section" style="display:none;">
+        <div class="info-format-badge">
+          <span>\</span> <span>Word 1</span> <span>Word 2</span> <span>Word 3</span> <span>/</span>
+        </div>
+        <div class="info-format-example">
+          <span>e.g.</span> <span>\</span> <span>apple</span> <span>banana</span> <span>cherry</span> <span>/</span>
+        </div>
+
+        <div class="info-summary-block">
+          <p>An encoding schema where digital data is mapped to a sequence of simple, unique nouns.</p>
+          <ul class="info-feature-list">
+            <li><strong>1,024 Words:</strong> Base-1024 dictionary of common nouns. Each word encodes 10 bits of data.</li>
+            <li><strong>Error Detection:</strong> Optional CRC-8 checksum verification protects against transcription mistakes.</li>
+          </ul>
+        </div>
+
+        <!-- Moved Footer: Navigation Links -->
+        <table class="info-links-table">
+          <tr>
+            <td>About:</td>
+            <td><a class="link" href="/about">wcode.codes/about</a></td>
+          </tr>
+          <tr>
+            <td>WordList:</td>
+            <td><a class="link" href="/wordlist">wcode.codes/wordlist</a></td>
+          </tr>
+          <tr>
+            <td>FAQ:</td>
+            <td><a class="link" href="/faq">wcode.codes/faq</a></td>
+          </tr>
+          <tr>
+            <td>Terms of use:</td>
+            <td><a class="link" href="/terms">wcode.codes/terms</a></td>
+          </tr>
+          <tr>
+            <td>Privacy policy:</td>
+            <td><a class="link" href="/policy">wcode.codes/policy</a></td>
+          </tr>
+        </table>
+
+        <!-- Moved Footer: Social Links -->
+        <div class="info-social-links">
+          <span class="social grow">
+            <a href="https://twitter.com/wcodesorg" target="_blank" rel="noopener" aria-label="Twitter">
+              <span class="image"><svg viewBox="0 0 76 76"><path fill="currentColor" d="M76 14.4c-2.8 1.2-5.8 2.1-9 2.5 3.2-1.9 5.7-5 6.9-8.6-3 1.8-6.3 3.1-9.9 3.8-2.8-3-6.9-4.9-11.4-4.9C44 7.1 37 14.1 37 22.7c0 1.2.1 2.4.4 3.6C24.5 25.6 13 19.4 5.3 10c-1.3 2.3-2.1 5-2.1 7.8.0 5.4 2.8 10.2 6.9 13-2.6-.1-5-.8-7.1-2 0 .1.0.1.0.2.0 7.6 5.4 13.9 12.5 15.3-1.3.4-2.7.5-4.1.5-1 0-2-.1-2.9-.3 2 6.2 7.7 10.7 14.6 10.8C17.8 59.5 11 62 3.7 62c-1.3.0-2.5-.1-3.7-.2 6.9 4.4 15.1 7 23.9 7 28.7.0 44.4-23.8 44.4-44.4.0-.7.0-1.3.0-2C71.3 20.3 73.9 17.6 76 14.4z"/></svg></span>
+            </a>
+          </span>
+          <span class="social grow">
+            <a href="https://facebook.com/wcodesorg" target="_blank" rel="noopener" aria-label="Facebook">
+              <span class="image"><svg viewBox="0 0 76 76"><path fill="currentColor" d="M68.7 3.5H7.3c-2.1.0-3.8 1.7-3.8 3.8v61.4c0 2.1 1.7 3.8 3.8 3.8h33V45.8h-9V35.4h9v-7.7c0-8.9 5.4-13.8 13.4-13.8 3.8.0 7.1.3 8 .4v9.3h-5.5c-4.3.0-5.2 2.1-5.2 5.1v6.6h10.3L60 45.7h-9v26.7h17.6c2.1.0 3.8-1.7 3.8-3.8V7.3C72.5 5.2 70.8 3.5 68.7 3.5z"/></svg></span>
+            </a>
+          </span>
+          <span class="social grow">
+            <a href="https://www.youtube.com/channel/UCnKSws8Lro8U9Ewtf1Xi5jg" target="_blank" rel="noopener" aria-label="YouTube">
+              <span class="image"><svg id="youtube_icon" viewBox="0 -158 1024 1024"><path fill="currentColor" d="M407 206l242 161.6 34-17.6L407 206z"/><path fill="currentColor" d="M1013 156.3s-10-70.4-40.6-101.4C933.6 14.2 890 14 870.1 11.6 727.1 1.3 512.7 1.3 512.7 1.3h-.4s-214.4.0-357.4 10.3C135 14 91.4 14.2 52.6 54.9 22 85.9 12 156.3 12 156.3S1.8 238.9 1.8 321.6v77.5C1.8 481.8 12 564.4 12 564.4s10 70.4 40.6 101.4c38.9 40.7 89.9 39.4 112.6 43.7 81.7 7.8 347.3 10.3 347.3 10.3s214.6-.3 357.6-10.7c20-2.4 63.5-2.6 102.3-43.3 30.6-31 40.6-101.4 40.6-101.4s10.2-82.7 10.2-165.3v-77.5c0-82.7-10.2-165.3-10.2-165.3zM407 493V206l276 144L407 493z"/></svg></span>
+            </a>
+          </span>
+        </div>
+
+        <!-- Moved Footer: Disclaimer -->
+        <div class="info-disclaimer-note">
+          <span class="footer-note-label"><strong>Disclaimer:</strong></span>
+          <span class="footer-note-body">The content and encoding tools are provided for general information and communication purposes. Please verify decoded data independently before relying on it and take reasonable steps to limit any loss. To the extent permitted by law, WCode is not liable for loss or damage arising from use of or reliance on encoded messages.</span>
+        </div>
+
+        <!-- Moved Footer: Copyright & Attribution -->
+        <div class="info-footer-attribution">
+          <div><a class="content-link-gray" href="/license">Copyright &copy; 2026 WCode &bull; Some rights reserved</a></div>
+          <div class="info-agency">by <a class="link" href="https://wcodes.org/about_me" target="_blank" rel="noopener">Ujjwal Singh</a></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- Floating Toast Container -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
-  <!-- Footer (ujnotes style with divider & disclaimer) -->
+  <!-- Bottom Utility Actions (Footer Removed) -->
   <div id="footer-wrapper">
     <div id="footer-actions-bar">
       <div id="footer-actions-left">
@@ -315,47 +399,6 @@
           <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
           <span id="drawer-badge" class="btn-badge" style="display:none">0</span>
         </button>
-      </div>
-    </div>
-    <div id="footer-wrapper-divider"></div>
-    <div id="footer-wrapper-inside">
-
-      <div id="social-links">
-        <span class="social grow">
-          <a href="https://twitter.com/wcodesorg" id="site-twitter" target="_blank" rel="noopener" aria-label="Twitter">
-            <span class="image"><svg viewBox="0 0 76 76"><path fill="#D9D9D9" d="M76 14.4c-2.8 1.2-5.8 2.1-9 2.5 3.2-1.9 5.7-5 6.9-8.6-3 1.8-6.3 3.1-9.9 3.8-2.8-3-6.9-4.9-11.4-4.9C44 7.1 37 14.1 37 22.7c0 1.2.1 2.4.4 3.6C24.5 25.6 13 19.4 5.3 10c-1.3 2.3-2.1 5-2.1 7.8.0 5.4 2.8 10.2 6.9 13-2.6-.1-5-.8-7.1-2 0 .1.0.1.0.2.0 7.6 5.4 13.9 12.5 15.3-1.3.4-2.7.5-4.1.5-1 0-2-.1-2.9-.3 2 6.2 7.7 10.7 14.6 10.8C17.8 59.5 11 62 3.7 62c-1.3.0-2.5-.1-3.7-.2 6.9 4.4 15.1 7 23.9 7 28.7.0 44.4-23.8 44.4-44.4.0-.7.0-1.3.0-2C71.3 20.3 73.9 17.6 76 14.4z"/></svg></span>
-          </a>
-        </span>
-        <span class="social grow">
-          <a href="https://facebook.com/wcodesorg" id="site-facebook" target="_blank" rel="noopener" aria-label="Facebook">
-            <span class="image"><svg viewBox="0 0 76 76"><path fill="#D9D9D9" d="M68.7 3.5H7.3c-2.1.0-3.8 1.7-3.8 3.8v61.4c0 2.1 1.7 3.8 3.8 3.8h33V45.8h-9V35.4h9v-7.7c0-8.9 5.4-13.8 13.4-13.8 3.8.0 7.1.3 8 .4v9.3h-5.5c-4.3.0-5.2 2.1-5.2 5.1v6.6h10.3L60 45.7h-9v26.7h17.6c2.1.0 3.8-1.7 3.8-3.8V7.3C72.5 5.2 70.8 3.5 68.7 3.5z"/></svg></span>
-          </a>
-        </span>
-        <span class="social grow">
-          <a href="https://www.youtube.com/channel/UCnKSws8Lro8U9Ewtf1Xi5jg" id="site-youtube" target="_blank" rel="noopener" aria-label="YouTube">
-            <span class="image"><svg id="youtube_icon" viewBox="0 -158 1024 1024"><path fill="#D9D9D9" d="M407 206l242 161.6 34-17.6L407 206z"/><path fill="#D9D9D9" d="M1013 156.3s-10-70.4-40.6-101.4C933.6 14.2 890 14 870.1 11.6 727.1 1.3 512.7 1.3 512.7 1.3h-.4s-214.4.0-357.4 10.3C135 14 91.4 14.2 52.6 54.9 22 85.9 12 156.3 12 156.3S1.8 238.9 1.8 321.6v77.5C1.8 481.8 12 564.4 12 564.4s10 70.4 40.6 101.4c38.9 40.7 89.9 39.4 112.6 43.7 81.7 7.8 347.3 10.3 347.3 10.3s214.6-.3 357.6-10.7c20-2.4 63.5-2.6 102.3-43.3 30.6-31 40.6-101.4 40.6-101.4s10.2-82.7 10.2-165.3v-77.5c0-82.7-10.2-165.3-10.2-165.3zM407 493V206l276 144L407 493z"/></svg></span>
-          </a>
-        </span>
-      </div>
-
-      <div class="footer-links">
-        <a href="/about" class="content-link-gray">About</a>
-        <a href="/wordlist" class="content-link-gray">WordList</a>
-        <a href="/faq" class="content-link-gray">FAQ</a>
-      </div>
-
-      <div class="footer-content footer-note" id="footer-site-disclaimer">
-        <span class="footer-note-label"><strong>Disclaimer:</strong></span>
-        <span class="footer-note-body">The content and encoding tools are provided for general information and communication purposes. Please verify decoded data independently before relying on it and take reasonable steps to limit any loss. To the extent permitted by law, WCode is not liable for loss or damage arising from use of or reliance on encoded messages.</span>
-      </div>
-
-      <div class="footer-content" id="footer-rights">
-        <a class="content-link-gray" href="/license">Some rights reserved</a>
-      </div>
-
-      <div class="footer-content">
-        <a class="content-link-gray" href="/license">Copyright &copy; 2026</a>
-        <a class="content-link" href="/about">WCode</a>
       </div>
     </div>
   </div>

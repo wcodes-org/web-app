@@ -7,10 +7,9 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ## 1. Header & Navigation Architecture
 - **Traditional Header Structure**:
   - **Top Row**: Slogan / brand statement aligned on the left, full official SVG logo anchored on the right.
-  - **Root Header Minimalism**: In the root encoder (`/`), the action bar is stripped clean (menu/hamburger icon removed, utility buttons relocated to bottom flanks) providing an ultra-focused workspace while preserving the fixed 142px height.
-  - **Subtle Divider**: Clean, low-contrast border line (`#header-wrapper-divider`) separating the header block from the interactive application canvas.
+  - **Root Header Minimalism & Borderless Canvas**: In the root encoder (`/`), the action bar is stripped clean (menu/hamburger icon removed, utility buttons relocated to bottom flanks) providing an ultra-focused workspace while preserving the fixed 142px height. The header separator divider is removed in root for an open, unbordered flow into the interactive canvas.
 - **Cross-Site Aesthetic Parity**:
-  - The encoder app (`/`) maintains strict visual parity with Cutie content pages (`/about`, `/features`, `/faq`). Slogan, brand logo, and divider coordinates remain completely static with zero layout shift.
+  - The encoder app (`/`) maintains strict visual parity with Cutie content pages (`/about`, `/features`, `/faq`). Slogan and brand logo coordinates remain completely static with zero layout shift.
 
 ---
 
@@ -66,22 +65,21 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 8. Footer Architecture (Ujnotes & Cutie Parity)
-- **Structure**:
-  - **Bottom Utility Actions Bar**: Positioned directly above the divider with Info modal on bottom-left, Theme Switcher and Bookmark/Saved Codes drawer on bottom-right (`#footer-actions-bar`).
-  - **Divider**: Centered low-contrast horizontal rule (`#footer-wrapper-divider`, 20% margin on either side).
-  - **Social Links**: Clean vector icon row (Twitter/X, Facebook, YouTube) with brand tinting on hover.
-  - **Streamlined Navigation Links**: Site-wide text links reduced strictly to `About`, `WordList`, and `FAQ` (`.footer-links`), maintaining minimal clutter.
-  - **Site Disclaimer**: Centered, readable disclaimer block (`#footer-site-disclaimer`) clarifying informational use and limiting liability.
-  - **Rights & Copyright**: Centered copyright attribution and license links.
-  - **Root Clutter Removal**: Standalone download buttons and store badges (Google Play, Apple Store) are removed from the root encoder footer.
+## 8. Root Footer Removal & Info Modal Consolidation (Wolo Parity)
+- **Zero-Clutter Root**:
+  - The traditional footer (divider, social icon links, text links list, disclaimer text, copyright) is removed entirely from the root application page (`/`).
+  - All footer content is relocated into the **Info Modal**:
+    - **Navigation Links Table**: About (`/about`), WordList (`/wordlist`), FAQ (`/faq`), Terms (`/terms`), Privacy Policy (`/policy`).
+    - **Social Media Icons**: Clean SVG icon row for Twitter/X, Facebook, and YouTube with brand tint hover transitions.
+    - **Site Disclaimer**: Centered informational and liability disclaimer block.
+    - **Attribution & Rights**: Copyright notices, license links, and author attribution (`by Ujjwal Singh`).
 
 ---
 
 ## 9. Multi-Theme Harmony & Persistence
 - **3-Way Theme Switcher**:
   - Provides **System** (OS auto-detection), **Light**, and **Dark** options.
-  - Dropdown menu interface with corresponding iconography.
+  - Upward-opening dropdown menu when placed in the bottom actions bar (`bottom: calc(100% + 6px); top: auto; right: 0;`).
 - **Synchronized State**:
   - Changes must synchronize between local app keys (`wcode_theme`) and the Cutie framework theme keys (`cutie-dark-mode`), updating `data-theme-preference`, `data-theme-resolved`, and root `.dark-mode` classes in unison.
 
@@ -90,7 +88,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ## 10. Zero Header Layout Shift & Viewport Stability
 - **Pixel-Locked Header Across All Pages**:
   - Transitioning between the root encoder app (`/`) and Cutie content pages (`/about`, `/features`, `/faq`, etc.) must exhibit **zero layout shift** in the header.
-  - Slogan ("digital words"), brand logo, hamburger menu button, and divider coordinates remain completely static down to the exact pixel. Only the top-right contextual utility icons change.
+  - Slogan ("digital words") and brand logo coordinates remain completely static down to the exact pixel. Only contextual navigation/utility items vary.
 - **Unified Outer Wrapper Hierarchy**:
   - `html`: `min-height: 100%; margin-left: calc(100vw - 100%);` (prevents horizontal jumps when scrollbar appears/disappears).
   - `body`: `min-height: 100%; margin: 0 auto; display: flex; flex-direction: column; overflow-x: hidden;`.
@@ -119,18 +117,26 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ## 13. Bottom Flank Utilities & Actions Bar
 - **Bottom Actions Bar (`#footer-actions-bar`)**:
-  - Placed directly above the footer divider within the 1240px container bounds.
-  - **Left Flank (`#footer-actions-left`)**: Relocated Info icon button (`#info-modal-btn`) for instant access to technical codec details without header distraction.
+  - Sits cleanly at the bottom edge within the 1240px container bounds.
+  - **Left Flank (`#footer-actions-left`)**: Relocated Info icon button (`#info-modal-btn`) for instant access to technical codec details and consolidated links without header distraction.
   - **Right Flank (`#footer-actions-right`)**: Relocated Theme Switcher (`#theme-selector`) preceded immediately before the Bookmark / Saved Codes drawer toggle (`#drawer-toggle-btn`).
-  - Replaces central marketing cards or download buttons with high-utility, quiet controls.
+  - No trailing footer block or horizontal rules beneath this utilities bar.
 
 ---
 
-## 14. Mode Switch Icons & Mobile Store Status
-- **Semantic Mode Iconography**:
-  - **Encode Tab**: Lock closed icon (`M18 8h-1V6...`) symbolizing the transformation and sealing of plain data into unambiguous WCode words.
-  - **Decode Tab**: Lock open icon (`M12 17c1.1...`) symbolizing the unlocking and retrieval of original data from WCode words.
-- **Mobile Store Download Status**:
-  - On content/marketing pages where store badges appear, both **Google Play** and **Apple App Store** badges are designated as `coming-soon` with a persistent `to be announced` subtitle, disabling live external redirects until public release. Root encoder remains unencumbered by store badges.
+## 14. Text-Only Mode Switch Tabs
+- **Icon-Free Mode Tabs**:
+  - Both **Encode** and **Decode** mode buttons display clean text labels without icons (`<span>Encode</span>`, `<span>Decode</span>`).
+  - Eliminates visual clutter while providing clear, prominent tab targets with smooth active transitions.
+
+---
+
+## 15. First-Visit Info Window (Wolo Project Parity)
+- **Automatic First-Access Prompt**:
+  - On first access or login to root (`note_version` unrecorded in `localStorage`), the Info window opens automatically in intro mode (`#info-intro`).
+  - Displays the cookie & privacy acceptance notice with a prominent cyan circular Proceed button (`.button_highlight` with forward arrow SVG).
+  - Clicking Proceed sets `localStorage.note_version = CURRENT_NOTE_VERSION` and dismisses the prompt.
+- **Full Info Window on Demand**:
+  - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, navigation links table, social links, disclaimer, and author credits.
 
 

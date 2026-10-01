@@ -148,6 +148,9 @@
 
     // URL parameter support: e.g. /?encode=hello or /?decode=cat+apple+mango
     handleUrlParams();
+
+    // Check if first visit/login (Wolo parity)
+    checkFirstVisit();
   }
 
   function bindEvents() {
@@ -285,18 +288,42 @@
     });
     DOM.drawerClearAll.addEventListener('click', clearAllHistory);
 
-    // Info Modal
-    DOM.infoBtn.addEventListener('click', () => openModal(true));
-    DOM.modalClose.addEventListener('click', () => openModal(false));
-    DOM.infoModal.addEventListener('click', (e) => {
-      if (e.target === DOM.infoModal) openModal(false);
-    });
+    // Info Modal (Wolo parity)
+    if (DOM.infoBtn) {
+      DOM.infoBtn.addEventListener('click', () => showInfoModal(false));
+    }
+    if (DOM.modalClose) {
+      DOM.modalClose.addEventListener('click', hideInfoModal);
+    }
+    const introCloseBtn = document.getElementById('info_intro_close_button');
+    if (introCloseBtn) {
+      introCloseBtn.addEventListener('click', () => {
+        try {
+          localStorage.setItem('note_version', CURRENT_NOTE_VERSION);
+          localStorage.setItem('wcode_note_version', CURRENT_NOTE_VERSION);
+        } catch (e) {}
+        hideInfoModal();
+      });
+    }
+    if (DOM.infoModal) {
+      DOM.infoModal.addEventListener('click', (e) => {
+        const introSection = document.getElementById('info-intro');
+        const isIntroActive = introSection && introSection.style.display !== 'none';
+        if (!isIntroActive && e.target === DOM.infoModal) {
+          hideInfoModal();
+        }
+      });
+    }
 
     // Keyboard escape to close modals/drawer
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         openDrawer(false);
-        openModal(false);
+        const introSection = document.getElementById('info-intro');
+        const isIntroActive = introSection && introSection.style.display !== 'none';
+        if (!isIntroActive) {
+          hideInfoModal();
+        }
       }
     });
   }
@@ -750,9 +777,53 @@
     }
   }
 
-  // Info Modal
-  function openModal(open) {
-    DOM.infoModal.classList.toggle('open', open);
+  // Info Modal & First-Visit Check (Wolo Parity)
+  const CURRENT_NOTE_VERSION = '1.0';
+
+  function checkFirstVisit() {
+    let isFirst = false;
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const stored = localStorage.getItem('note_version') || localStorage.getItem('wcode_note_version');
+        if (!stored) {
+          isFirst = true;
+        }
+      }
+    } catch (e) {
+      isFirst = false;
+    }
+
+    if (isFirst) {
+      showInfoModal(true);
+    }
+  }
+
+  function showInfoModal(isIntro = false) {
+    const introSection = document.getElementById('info-intro');
+    const fullSection = document.getElementById('info-full');
+    const closeBtn = document.getElementById('modal-close');
+
+    if (isIntro) {
+      if (introSection) introSection.style.display = 'block';
+      if (fullSection) fullSection.style.display = 'none';
+      if (closeBtn) closeBtn.style.display = 'none';
+    } else {
+      if (introSection) introSection.style.display = 'none';
+      if (fullSection) fullSection.style.display = 'block';
+      if (closeBtn) closeBtn.style.display = 'inline-flex';
+    }
+
+    if (DOM.infoModal) {
+      DOM.infoModal.classList.add('open');
+      DOM.infoModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function hideInfoModal() {
+    if (DOM.infoModal) {
+      DOM.infoModal.classList.remove('open');
+      DOM.infoModal.setAttribute('aria-hidden', 'true');
+    }
   }
 
   // Theme Management

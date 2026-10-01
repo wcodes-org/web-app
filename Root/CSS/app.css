@@ -513,14 +513,6 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
   fill: #69b7cf;
 }
 
-/* Bottom Tile for About (matching location tile in /about) */
-.bottom-tile-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 36px auto 12px;
-  text-align: center;
-}
 
 .item_block_container {
   width: 160px;
@@ -1552,74 +1544,46 @@ html.dark-mode .clear-bar-btn:focus-visible {
   padding: 18px 16px 28px;
 }
 
-#footer-downloads {
+#footer-actions-bar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 4px 40px;
 }
 
-#download_button_bottom {
-  display: inline-block;
-  padding: 4px 12px;
+#footer-actions-left {
+  display: inline-flex;
+  align-items: center;
 }
 
-#download_button_bottom .image {
-  height: 36px;
-  width: 36px;
-  display: inline-block;
+#footer-actions-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-#download_button_bottom svg {
-  width: 36px;
-  height: 36px;
-  display: block;
+#footer-actions-bar .header-action-icon,
+#footer-actions-bar #darkmode-button {
+  margin: 6px 4px;
 }
 
-#download_button_bottom path {
-  fill: #D9D9D9;
-  transition: all ease-out 0.3s;
-}
-
-#download_button_bottom:hover path {
-  fill: #56b4d1;
-}
-
-.download {
-  display: inline-block;
-  margin: 10px 10px 4px;
-}
-
-.download.coming-soon span {
-  display: block;
-  color: #888 !important;
-  font-size: 0.78rem;
-  padding-bottom: 4px;
-  text-align: center;
-}
-
-#download-android-bottom,
-#download-apple-bottom {
-  width: 136px;
-}
-
-#download-android-bottom svg,
-#download-apple-bottom svg {
-  display: block;
-  width: 135px;
-  height: 40px;
+#footer-actions-bar #theme-menu {
+  bottom: calc(100% + 6px);
+  top: auto;
+  right: 0;
+  margin-bottom: 0;
 }
 
 @media (max-width: 540px) {
-  #download-apple-bottom,
-  #download-android-bottom {
-    clear: both;
-    display: block;
-    margin: 6px auto;
+  #footer-actions-bar {
+    padding: 0 12px;
   }
 }
+
 
 #social-links {
   padding-bottom: 4px;

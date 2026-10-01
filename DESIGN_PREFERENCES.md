@@ -5,13 +5,12 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ---
 
 ## 1. Header & Navigation Architecture
-- **Traditional Two-Tier Header**:
+- **Traditional Header Structure**:
   - **Top Row**: Slogan / brand statement aligned on the left, full official SVG logo anchored on the right.
-  - **Second Row (Action Bar)**: Primary navigation (`Menu` / hamburger) on the left, utility actions (Saved Drawer, Theme selector, Info modal) grouped on the right.
-  - **No Duplicate Actions**: Keep the utility icon set focused; avoid redundant about/info icons (e.g. a single modal trigger for "About WCode" rather than both an external link and a dialog button).
+  - **Root Header Minimalism**: In the root encoder (`/`), the action bar is stripped clean (menu/hamburger icon removed, utility buttons relocated to bottom flanks) providing an ultra-focused workspace while preserving the fixed 142px height.
   - **Subtle Divider**: Clean, low-contrast border line (`#header-wrapper-divider`) separating the header block from the interactive application canvas.
 - **Cross-Site Aesthetic Parity**:
-  - The encoder app (`/`) must maintain strict visual parity with the Cutie content pages (`/about`, `/features`, `/faq`).
+  - The encoder app (`/`) maintains strict visual parity with Cutie content pages (`/about`, `/features`, `/faq`). Slogan, brand logo, and divider coordinates remain completely static with zero layout shift.
 
 ---
 
@@ -69,11 +68,13 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ## 8. Footer Architecture (Ujnotes & Cutie Parity)
 - **Structure**:
+  - **Bottom Utility Actions Bar**: Positioned directly above the divider with Info modal on bottom-left, Theme Switcher and Bookmark/Saved Codes drawer on bottom-right (`#footer-actions-bar`).
   - **Divider**: Centered low-contrast horizontal rule (`#footer-wrapper-divider`, 20% margin on either side).
   - **Social Links**: Clean vector icon row (Twitter/X, Facebook, YouTube) with brand tinting on hover.
-  - **Navigation Links**: Site-wide text links (`About`, `Features`, `WordList`, `FAQ`, `Downloads`, `Patents`).
+  - **Streamlined Navigation Links**: Site-wide text links reduced strictly to `About`, `WordList`, and `FAQ` (`.footer-links`), maintaining minimal clutter.
   - **Site Disclaimer**: Centered, readable disclaimer block (`#footer-site-disclaimer`) clarifying informational use and limiting liability.
   - **Rights & Copyright**: Centered copyright attribution and license links.
+  - **Root Clutter Removal**: Standalone download buttons and store badges (Google Play, Apple Store) are removed from the root encoder footer.
 
 ---
 
@@ -116,21 +117,20 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 13. Bottom Navigation Tile for About (Location Tile Parity)
-- **Rich Card Architecture**:
-  - The About navigation tile is placed at the bottom of the main content area directly above the footer divider (`.bottom-tile-area`).
-  - Implements the rich `.item_block_container` pattern matching the location/apps tiles on the `/about` page:
-    - **Header Image**: 160×110px visual card (`/app/location.svg`) with `object-fit: contain` and light/dark theme adaptation.
-    - **Label Bar**: 160×32px footer bar with clean typography and hover color transitions.
-    - **Interactive Scale**: Smooth `.grow` hover effect (`transform: scale(1.05)`).
+## 13. Bottom Flank Utilities & Actions Bar
+- **Bottom Actions Bar (`#footer-actions-bar`)**:
+  - Placed directly above the footer divider within the 1240px container bounds.
+  - **Left Flank (`#footer-actions-left`)**: Relocated Info icon button (`#info-modal-btn`) for instant access to technical codec details without header distraction.
+  - **Right Flank (`#footer-actions-right`)**: Relocated Theme Switcher (`#theme-selector`) preceded immediately before the Bookmark / Saved Codes drawer toggle (`#drawer-toggle-btn`).
+  - Replaces central marketing cards or download buttons with high-utility, quiet controls.
 
 ---
 
-## 14. Mode Switch Icons & Mobile App Badges
+## 14. Mode Switch Icons & Mobile Store Status
 - **Semantic Mode Iconography**:
   - **Encode Tab**: Lock closed icon (`M18 8h-1V6...`) symbolizing the transformation and sealing of plain data into unambiguous WCode words.
   - **Decode Tab**: Lock open icon (`M12 17c1.1...`) symbolizing the unlocking and retrieval of original data from WCode words.
 - **Mobile Store Download Status**:
-  - Both **Google Play** and **Apple App Store** badges in the site and app footers are designated as `coming-soon` with a persistent `to be announced` subtitle, disabling live external redirects until public release.
+  - On content/marketing pages where store badges appear, both **Google Play** and **Apple App Store** badges are designated as `coming-soon` with a persistent `to be announced` subtitle, disabling live external redirects until public release. Root encoder remains unencumbered by store badges.
 
 

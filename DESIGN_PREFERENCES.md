@@ -139,4 +139,21 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Full Info Window on Demand**:
   - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, navigation links table, social links, disclaimer, and author credits.
 
+---
+
+## 16. Studio Card De-Cluttering & Externalized Controls
+- **External Label & Primary Action**:
+  - **Header Label Outside**: The input stage indicator ("Data to encode" / "WCode words") sits outside, directly above `#studio-card` (`.studio-label-outside`), paired with contextual helper buttons (e.g. "My GPS", "Now") when applicable.
+  - **Controls Outside**: The error check toggle and main action button ("Encode to WCode" / "Decode WCode") are placed outside directly below `#studio-card` (`.controls-bar-outside`), leaving the card canvas strictly dedicated to data input.
+  - **Output Section**: The output area (`#output-section`) renders as an independent card beneath the outside action controls.
+- **Right-Flank Input Actions**:
+  - Clear and Paste buttons are vertically stacked beside the input field in `.input-actions-flank` matching the exact 104px height:
+    - **Clear button (`#btn-clear`)**: Pinned to the top-right edge.
+    - **Paste button (`#btn-paste`)**: Pinned to the bottom-right edge.
+    - Both buttons use identical 36px circular footprints with subtle hover-activated backgrounds.
+- **Root Bottom Copyright & Modal Parity**:
+  - The copyright notice (`Copyright © 2026 WCode`) is positioned at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Theme/Bookmark controls.
+  - Info modal references the canonical vector brand asset (`/Resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
+
+
 

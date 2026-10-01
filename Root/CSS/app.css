@@ -740,6 +740,21 @@ html.dark-mode .item_block_text div,
   border-color: rgba(2, 132, 199, 0.4);
 }
 
+/* Studio Card Label Outside */
+.studio-label-outside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.studio-label-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* Input Section */
 .input-header {
   display: flex;
@@ -803,7 +818,7 @@ html.dark-mode .item_block_text div,
   fill: currentColor;
 }
 
-/* Input Bar Row with Clear Button Beside */
+/* Input Bar Row with Actions Beside (Clear on top, Paste on bottom edge) */
 .input-bar-row {
   display: flex;
   align-items: flex-start;
@@ -815,37 +830,56 @@ html.dark-mode .item_block_text div,
   min-width: 0;
 }
 
-.clear-bar-btn {
+.input-actions-flank {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 104px;
+  flex-shrink: 0;
+}
+
+.clear-bar-btn,
+.paste-bar-btn {
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 4px;
   transition: all var(--transition-fast);
+  padding: 0;
 }
 
 .clear-bar-btn:hover,
-.clear-bar-btn:focus-visible {
+.clear-bar-btn:focus-visible,
+.paste-bar-btn:hover,
+.paste-bar-btn:focus-visible {
   background: rgba(0, 0, 0, 0.05);
   color: var(--text-main);
   border-color: transparent;
 }
 
 html.dark-mode .clear-bar-btn:hover,
-html.dark-mode .clear-bar-btn:focus-visible {
+html.dark-mode .clear-bar-btn:focus-visible,
+html.dark-mode .paste-bar-btn:hover,
+html.dark-mode .paste-bar-btn:focus-visible,
+[data-theme="dark"] .clear-bar-btn:hover,
+[data-theme="dark"] .clear-bar-btn:focus-visible,
+[data-theme="dark"] .paste-bar-btn:hover,
+[data-theme="dark"] .paste-bar-btn:focus-visible {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-main);
   border-color: transparent;
 }
 
-.clear-bar-btn svg {
+.clear-bar-btn svg,
+.paste-bar-btn svg {
   width: 18px;
   height: 18px;
   fill: currentColor;
@@ -1006,6 +1040,17 @@ html.dark-mode .clear-bar-btn:focus-visible {
   gap: 12px;
 }
 
+.controls-bar-outside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 4px;
+}
+
 .option-toggle {
   display: inline-flex;
   align-items: center;
@@ -1094,9 +1139,14 @@ html.dark-mode .clear-bar-btn:focus-visible {
 
 /* Output Showcase Section */
 .output-section {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px dashed var(--border-light);
+  margin-top: 20px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
   animation: fadeIn 0.25s ease-out;
 }
 
@@ -1538,6 +1588,41 @@ html.dark-mode .clear-bar-btn:focus-visible {
   color: var(--text-muted);
 }
 
+.icon-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-main);
+}
+
+html.dark-mode .icon-btn:hover,
+html.dark-mode .icon-btn:focus-visible,
+[data-theme="dark"] .icon-btn:hover,
+[data-theme="dark"] .icon-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
 .modal-close-wrapper {
   position: absolute;
   top: 14px;
@@ -1555,10 +1640,16 @@ html.dark-mode .clear-bar-btn:focus-visible {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 4px;
+}
+
+.info-logo-link {
+  display: inline-block;
+  text-decoration: none;
 }
 
 .info-logo-link img {
-  height: 34px;
+  height: 38px;
   width: auto;
   display: block;
 }
@@ -1736,6 +1827,17 @@ html.dark-mode .info-format-badge span {
 #footer-actions-left {
   display: inline-flex;
   align-items: center;
+}
+
+.footer-root-copyright {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  user-select: none;
+  text-align: center;
+}
+
+.footer-root-copyright a {
+  text-decoration: none;
 }
 
 #footer-actions-right {

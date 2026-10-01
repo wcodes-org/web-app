@@ -116,8 +116,21 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 13. Center Tile for About (Cutie Framework Parity)
-- **Prominent Navigation Tile**:
-  - Positioned centrally above the studio workspace card (`.center-tile-area` containing `.item_block.grow`).
-  - Matches the Cutie framework tile pattern (`width: 158px; height: 64px; border-radius: 5px; background: #f6f6f6; color: #69b7cf;`), including interactive hover scaling (`.grow:hover { transform: scale(1.1); }`) and full dark mode theming (`background: #224; border-color: #2a2a4a;`).
+## 13. Bottom Navigation Tile for About (Location Tile Parity)
+- **Rich Card Architecture**:
+  - The About navigation tile is placed at the bottom of the main content area directly above the footer divider (`.bottom-tile-area`).
+  - Implements the rich `.item_block_container` pattern matching the location/apps tiles on the `/about` page:
+    - **Header Image**: 160×110px visual card (`/app/location.svg`) with `object-fit: contain` and light/dark theme adaptation.
+    - **Label Bar**: 160×32px footer bar with clean typography and hover color transitions.
+    - **Interactive Scale**: Smooth `.grow` hover effect (`transform: scale(1.05)`).
+
+---
+
+## 14. Mode Switch Icons & Mobile App Badges
+- **Semantic Mode Iconography**:
+  - **Encode Tab**: Lock closed icon (`M18 8h-1V6...`) symbolizing the transformation and sealing of plain data into unambiguous WCode words.
+  - **Decode Tab**: Lock open icon (`M12 17c1.1...`) symbolizing the unlocking and retrieval of original data from WCode words.
+- **Mobile Store Download Status**:
+  - Both **Google Play** and **Apple App Store** badges in the site and app footers are designated as `coming-soon` with a persistent `to be announced` subtitle, disabling live external redirects until public release.
+
 

@@ -513,49 +513,90 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
   fill: #69b7cf;
 }
 
-/* Center Tile for About (Cutie framework parity) */
-.center-tile-area {
+/* Bottom Tile for About (matching location tile in /about) */
+.bottom-tile-area {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 22px auto 6px;
+  margin: 36px auto 12px;
+  text-align: center;
 }
 
-.item_block {
-  width: 158px;
-  height: 64px;
+.item_block_container {
+  width: 160px;
+  display: inline-block;
   margin: 5px;
+  vertical-align: middle;
+  transition: transform 0.75s, border-color 0.3s ease-out, background-color 0.3s ease-out, color 0.3s ease-out;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.item_block_image {
+  width: 160px;
+  height: 110px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: block;
+}
+
+.item_block_image_visible {
+  object-fit: cover;
+  opacity: 0.85 !important;
+  filter: alpha(opacity=85);
+  transition: opacity 2s !important;
+}
+
+.item_block_image_contain {
+  object-fit: contain;
+  background: #f8f8f8;
+}
+
+.item_block_text {
+  width: 160px;
+  height: 32px;
+  margin-top: -1px;
+  overflow: hidden;
   border-style: solid;
   border-width: 1px;
-  border-radius: 5px;
-  background: #f6f6f6;
-  border-color: #f4f4f4;
+  border-top-color: #fff;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   color: #69b7cf;
+  background-color: #f6f6f6;
+  border-color: #f4f4f4;
   display: inline-block;
   cursor: pointer;
   text-decoration: none;
   text-align: left;
-  line-height: 64px;
-  transition: transform .75s, border-color .3s ease-out, background-color .3s ease-out, color .3s ease-out;
+  line-height: 32px;
+  transition: all ease-out 0.3s;
+  box-sizing: border-box;
 }
 
-.item_block div {
+.item_block_text div {
   margin-left: 28px;
   font-size: 1em;
   vertical-align: middle;
   cursor: pointer;
   color: #69b7cf;
-  transition: all ease-out .3s;
+  transition: all ease-out 0.3s;
+  display: inline-block;
 }
 
-.item_block:hover {
+.item_block_container:hover .item_block_image {
+  cursor: pointer;
+  opacity: 1 !important;
+  filter: alpha(opacity=100);
+}
+
+.item_block_container:hover .item_block_text {
   cursor: pointer;
   border-color: #69b7cf;
   background-color: #69b7cf;
-  color: #fff;
 }
 
-.item_block:hover div {
+.item_block_container:hover .item_block_text div {
   color: #fff;
 }
 
@@ -564,26 +605,25 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
 }
 
 .grow:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
-html.dark-mode .item_block,
-[data-theme='dark'] .item_block {
-  background: #224;
+html.dark-mode .item_block_image_contain,
+[data-theme='dark'] .item_block_image_contain {
+  background: #1e293b;
+}
+
+html.dark-mode .item_block_text,
+[data-theme='dark'] .item_block_text {
+  background-color: #224;
   border-color: #2a2a4a;
+  border-top-color: #1a1a2e;
   color: #69b7cf;
 }
 
-html.dark-mode .item_block:hover,
-[data-theme='dark'] .item_block:hover {
-  border-color: #69b7cf;
-  background-color: #69b7cf;
-  color: #fff;
-}
-
-html.dark-mode .item_block:hover div,
-[data-theme='dark'] .item_block:hover div {
-  color: #fff;
+html.dark-mode .item_block_text div,
+[data-theme='dark'] .item_block_text div {
+  color: #69b7cf;
 }
 
 /* Main Workspace Container */
@@ -1510,6 +1550,75 @@ html.dark-mode .clear-bar-btn:focus-visible {
 
 #footer-wrapper-inside {
   padding: 18px 16px 28px;
+}
+
+#footer-downloads {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+#download_button_bottom {
+  display: inline-block;
+  padding: 4px 12px;
+}
+
+#download_button_bottom .image {
+  height: 36px;
+  width: 36px;
+  display: inline-block;
+}
+
+#download_button_bottom svg {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+
+#download_button_bottom path {
+  fill: #D9D9D9;
+  transition: all ease-out 0.3s;
+}
+
+#download_button_bottom:hover path {
+  fill: #56b4d1;
+}
+
+.download {
+  display: inline-block;
+  margin: 10px 10px 4px;
+}
+
+.download.coming-soon span {
+  display: block;
+  color: #888 !important;
+  font-size: 0.78rem;
+  padding-bottom: 4px;
+  text-align: center;
+}
+
+#download-android-bottom,
+#download-apple-bottom {
+  width: 136px;
+}
+
+#download-android-bottom svg,
+#download-apple-bottom svg {
+  display: block;
+  width: 135px;
+  height: 40px;
+}
+
+@media (max-width: 540px) {
+  #download-apple-bottom,
+  #download-android-bottom {
+    clear: both;
+    display: block;
+    margin: 6px auto;
+  }
 }
 
 #social-links {

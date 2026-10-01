@@ -661,7 +661,7 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
 /* Input Bar Row with Clear Button Beside */
 .input-bar-row {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 8px;
 }
 
@@ -671,24 +671,33 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
 }
 
 .clear-bar-btn {
-  background: var(--bg-pill);
-  border: 1px solid var(--border-light);
+  background: transparent;
+  border: 1px solid transparent;
   color: var(--text-muted);
-  width: 44px;
-  border-radius: var(--radius-md);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 4px;
   transition: all var(--transition-fast);
 }
 
 .clear-bar-btn:hover,
 .clear-bar-btn:focus-visible {
-  background: var(--bg-card-hover);
+  background: rgba(0, 0, 0, 0.05);
   color: var(--text-main);
-  border-color: var(--text-dim);
+  border-color: transparent;
+}
+
+html.dark-mode .clear-bar-btn:hover,
+html.dark-mode .clear-bar-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border-color: transparent;
 }
 
 .clear-bar-btn svg {
@@ -1354,14 +1363,58 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
   margin-bottom: 12px;
 }
 
-/* App Footer */
-.app-footer {
+/* Footer (ujnotes style with divider & disclaimer) */
+#footer-wrapper {
   margin-top: auto;
-  border-top: 1px solid var(--border-light);
-  padding: 20px;
   text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  font-size: 0.875em;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: 100%;
+}
+
+#footer-wrapper-divider {
+  border-bottom: 1px solid #ddd;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+#footer-wrapper-inside {
+  padding: 18px 16px 28px;
+}
+
+#social-links {
+  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.social {
+  display: inline-block;
+  margin: 8px 12px;
+}
+
+.social .image {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.social .image svg {
+  width: 100%;
+  height: 100%;
+}
+
+.social .image svg path {
+  fill: #bbb;
+  transition: all ease-out 0.3s;
+}
+
+.social:hover .image svg path {
+  fill: #69b7cf;
 }
 
 .footer-links {
@@ -1369,8 +1422,72 @@ html.dark-mode .theme-option-active .theme-option-icon svg,
   align-items: center;
   justify-content: center;
   gap: 18px;
-  margin-bottom: 8px;
+  margin: 12px 0 10px;
   flex-wrap: wrap;
+}
+
+.content-link-gray {
+  text-decoration: none;
+  color: #bbb !important;
+  font-size: 0.88rem;
+  transition: all ease-out 0.3s;
+}
+
+.content-link-gray:hover {
+  text-decoration: none;
+  color: #69b7cf !important;
+}
+
+.footer-content {
+  color: #bbb;
+  font-size: 0.85rem;
+}
+
+.footer-note {
+  max-width: 680px;
+  margin: 14px auto;
+  line-height: 1.5;
+  padding: 0 16px;
+  color: #888;
+}
+
+.footer-note-label strong {
+  color: #69b7cf;
+  font-weight: 700;
+}
+
+.footer-note-body {
+  color: #888;
+}
+
+#footer-rights {
+  margin: 10px 0 6px;
+}
+
+/* Dark mode footer overrides */
+html.dark-mode #footer-wrapper-divider {
+  border-bottom-color: #333;
+}
+
+html.dark-mode .footer-content,
+html.dark-mode .footer-note-body {
+  color: #666;
+}
+
+html.dark-mode .content-link-gray {
+  color: #666 !important;
+}
+
+html.dark-mode .content-link-gray:hover {
+  color: #69b7cf !important;
+}
+
+html.dark-mode .social .image svg path {
+  fill: #555;
+}
+
+html.dark-mode .social:hover .image svg path {
+  fill: #69b7cf;
 }
 
 /* Responsive adjustments */

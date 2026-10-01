@@ -7,9 +7,10 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ## 1. Header & Navigation Architecture
 - **Traditional Two-Tier Header**:
   - **Top Row**: Slogan / brand statement aligned on the left, full official SVG logo anchored on the right.
-  - **Second Row (Action Bar)**: Primary navigation (`Menu` / hamburger) on the left, utility actions (Theme selector, Info modal, secondary shortcuts) grouped on the right.
+  - **Second Row (Action Bar)**: Primary navigation (`Menu` / hamburger) on the left, utility actions (Saved Drawer, Theme selector, Info modal) grouped on the right.
+  - **No Duplicate Actions**: Keep the utility icon set focused; avoid redundant about/info icons (e.g. a single modal trigger for "About WCode" rather than both an external link and a dialog button).
   - **Subtle Divider**: Clean, low-contrast border line (`#header-wrapper-divider`) separating the header block from the interactive application canvas.
-- **Cross-Site Aesthetic Consistency**:
+- **Cross-Site Aesthetic Parity**:
   - The encoder app (`/`) must maintain strict visual parity with the Cutie content pages (`/about`, `/features`, `/faq`).
 
 ---
@@ -21,11 +22,13 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 3. Icon-First Minimalism
+## 3. Icon-First Minimalism & Button States
 - **No Redundant Labels**:
-  - Frequent action buttons in tight or focused workspaces should rely on clear, standard SVG iconography without cluttering text labels.
+  - Frequent action buttons in tight or focused workspaces rely on clear, standard SVG iconography without cluttering text labels.
   - **Paste Button**: Icon-only button with an accessible tooltip/title.
-  - **Clear Button**: Icon-only button positioned directly beside the input field row at the natural point of action, rather than in a detached header or far corner.
+  - **Clear Button**: Icon-only button positioned directly beside the input field row.
+- **Subtle Circle Hover Activation**:
+  - The clear button rests completely transparent (no solid border or card fill) and activates a soft, subtle circular background on hover or keyboard focus (`rgba(0,0,0,0.05)` in light mode, `rgba(255,255,255,0.08)` in dark mode).
 
 ---
 
@@ -52,17 +55,29 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 7. Input Resilience & Normalization
+## 7. Input Resilience, Normalization & Lossless Round-Trip
 - **Permissive and Forgiving Inputs**:
   - In decode workflows, swallow leading and trailing boundary noise automatically before validation or tokenizing:
     - Slashes: `/` and `\`
     - Hyphens / Dashes: `-`
     - Whitespace: Leading, trailing, and redundant consecutive spaces.
-  - Protects users from copy-paste quirks from chat apps, CLI outputs, or URL paths.
+- **Deterministic Round-Trip (Number & Text Encoding)**:
+  - Numbers, phone numbers, and text data must encode symmetrically using UTF-8 byte streams (consistent with the Android specification `input.getText().toString().getBytes()`), ensuring numbers like `12345` always round-trip back to `12345` across Auto and explicit type modes rather than colliding with raw binary BigInts.
+  - Type state must remain synchronized when swapping modes.
 
 ---
 
-## 8. Multi-Theme Harmony & Persistence
+## 8. Footer Architecture (Ujnotes & Cutie Parity)
+- **Structure**:
+  - **Divider**: Centered low-contrast horizontal rule (`#footer-wrapper-divider`, 20% margin on either side).
+  - **Social Links**: Clean vector icon row (Twitter/X, Facebook, YouTube) with brand tinting on hover.
+  - **Navigation Links**: Site-wide text links (`About`, `Features`, `WordList`, `FAQ`, `Downloads`, `Patents`).
+  - **Site Disclaimer**: Centered, readable disclaimer block (`#footer-site-disclaimer`) clarifying informational use and limiting liability.
+  - **Rights & Copyright**: Centered copyright attribution and license links.
+
+---
+
+## 9. Multi-Theme Harmony & Persistence
 - **3-Way Theme Switcher**:
   - Provides **System** (OS auto-detection), **Light**, and **Dark** options.
   - Dropdown menu interface with corresponding iconography.

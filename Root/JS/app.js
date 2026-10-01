@@ -651,12 +651,16 @@
     if (!state.currentResult) return;
     if (state.mode === 'encode') {
       const words = state.currentResult.wcode;
+      const type = state.currentResult.type || 'auto';
       setMode('decode');
+      setType(type);
       DOM.decodeInput.value = words;
       executeTransform(true);
     } else {
       const data = state.currentResult.data;
+      const type = state.currentResult.type || 'auto';
       setMode('encode');
+      setType(type);
       DOM.encodeInput.value = data;
       executeTransform(true);
     }

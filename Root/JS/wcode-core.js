@@ -259,40 +259,18 @@
     // High-level type handlers
     encodeByType(type, input, options = {}) {
       type = (type || 'auto').toLowerCase();
-      let bytes;
+      const str = String(input != null ? input : '');
+      if (!str.trim()) throw new Error('Input cannot be empty');
+
       let effectiveType = type;
-
       if (type === 'auto') {
-        effectiveType = this.detectType(input);
+        effectiveType = this.detectType(str);
       }
 
-      switch (effectiveType) {
-        case 'number':
-        case 'phone': {
-          const digits = String(input).replace(/[^\d]/g, '');
-          if (!digits) throw new Error('No valid digits found for number');
-          bytes = bigIntToBytes(BigInt(digits));
-          break;
-        }
-        case 'location': {
-          const locStr = String(input).trim();
-          if (!locStr) throw new Error('Location cannot be empty');
-          bytes = textToBytes(locStr);
-          break;
-        }
-        case 'email':
-        case 'url':
-        case 'date':
-        case 'time':
-        case 'text':
-        default: {
-          const str = String(input != null ? input : '');
-          if (!str.trim()) throw new Error('Input cannot be empty');
-          bytes = textToBytes(str);
-          break;
-        }
-      }
-
+      // Encode payload uniformly as UTF-8 string bytes
+      // Matches Android AUTO_DOT & NUMBER_DOT spec (input.getText().toString().getBytes())
+      // Ensures lossless bidirectional round-trip across all data types
+      const bytes = textToBytes(str);
       const result = this.encode(bytes);
       result.type = effectiveType;
       result.input = input;
@@ -303,24 +281,35 @@
       type = (type || 'auto').toLowerCase();
       const bytes = this.decode(message);
 
-      if (type === 'number' || type === 'phone') {
-        const bi = bytesToBigInt(bytes);
+      // Attempt UTF-8 text decoding first
+      let text = null;
+      try {
+        const decoded = bytesToText(bytes);
+        // Verify text contains valid printable UTF-8 without control character corruption
+        if (!/[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(decoded)) {
+          text = decoded;
+        }
+      } catch (e) {
+        text = null;
+      }
+
+      if (text !== null) {
+        let detectedType = type;
+        if (type === 'auto') {
+          detectedType = this.detectType(text);
+        }
         return {
-          type,
-          data: bi.toString(),
+          type: detectedType,
+          data: text,
           bytes
         };
       }
 
-      const text = bytesToText(bytes);
-      let detectedType = type;
-      if (type === 'auto') {
-        detectedType = this.detectType(text);
-      }
-
+      // Fallback for raw binary payloads (e.g., legacy BigInt encoding)
+      const bi = bytesToBigInt(bytes);
       return {
-        type: detectedType,
-        data: text,
+        type: (type === 'auto' ? 'number' : type),
+        data: bi.toString(),
         bytes
       };
     }
@@ -337,17 +326,17 @@
       if (/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/.test(str)) {
         return 'location';
       }
-      if (/^\+?[\d\s\-\(\)]{7,18}$/.test(str) && str.replace(/[^\d]/g, '').length >= 7) {
-        return 'phone';
-      }
-      if (/^\d{1,18}$/.test(str)) {
-        return 'number';
-      }
       if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
         return 'date';
       }
       if (/^\d{2}:\d{2}(:\d{2})?$/.test(str)) {
         return 'time';
+      }
+      if (/^\d{1,18}$/.test(str)) {
+        return 'number';
+      }
+      if (/^\+?[\d\s\-\(\)]{7,18}$/.test(str) && str.replace(/[^\d]/g, '').length >= 7) {
+        return 'phone';
       }
       return 'text';
     }

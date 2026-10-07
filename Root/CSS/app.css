@@ -23,6 +23,8 @@
   --brand-hover: #0369a1;
   --brand-light: #e0f2fe;
   --brand-accent: #69b7cf;
+  --brand-border-subtle: rgba(2, 132, 199, 0.28);
+  --brand-border-subtle-hover: rgba(2, 132, 199, 0.42);
 
   --success-color: #10b981;
   --success-light: #d1fae5;
@@ -64,6 +66,8 @@
   --brand-hover: #7dd3fc;
   --brand-light: rgba(56, 189, 248, 0.15);
   --brand-accent: #69b7cf;
+  --brand-border-subtle: rgba(56, 189, 248, 0.3);
+  --brand-border-subtle-hover: rgba(56, 189, 248, 0.45);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
@@ -847,9 +851,15 @@ html.dark-mode .item_block_text div,
 
 .type-pill.active {
   background: var(--brand-light);
-  border-color: var(--brand-primary);
+  border-color: var(--brand-border-subtle);
   color: var(--brand-primary);
   font-weight: 600;
+}
+
+.type-pill.active:hover {
+  background: var(--brand-light);
+  border-color: var(--brand-border-subtle-hover);
+  color: var(--brand-primary);
 }
 
 .type-pill svg {
@@ -922,7 +932,7 @@ html.dark-mode .item_block_text div,
   font-weight: 600;
   color: var(--brand-primary);
   background: var(--brand-light);
-  border: 1px solid rgba(105, 183, 207, 0.28);
+  border: 1px solid var(--brand-border-subtle);
   padding: 4px 12px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
@@ -1327,6 +1337,7 @@ html.dark-mode .paste-bar-btn:focus-visible,
   font-weight: 600;
   color: var(--brand-primary);
   background: var(--brand-light);
+  border: 1px solid var(--brand-border-subtle);
   padding: 4px 10px;
   border-radius: var(--radius-full);
   text-transform: uppercase;

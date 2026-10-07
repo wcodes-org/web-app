@@ -102,6 +102,8 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Auto as Singleton Option**:
   - "Time" occupies the first position among explicit data types, and "Auto" is positioned as the final, singleton option wrapped onto its own line (`.types-bar-break { flex-basis: 100%; width: 100%; height: 0; }`).
   - Visually anchors "Auto" as the primary default detection mode, centered cleanly below the specific format options.
+- **Subtle Outline Contrast for Active Mode Tags**:
+  - Active type pill tags (such as 'Auto') use a refined, subtle contrast border outline (`var(--brand-border-subtle)`) rather than a stark high-contrast solid primary line, preserving gentle visual harmony with the soft background tint.
 
 ---
 

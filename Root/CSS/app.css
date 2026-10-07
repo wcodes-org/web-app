@@ -1686,9 +1686,10 @@ html.dark-mode .paste-bar-btn:focus-visible,
   backdrop-filter: blur(4px);
   z-index: 80;
   display: flex;
-  align-items: center;
+  align-items: safe center;
   justify-content: center;
-  padding: 20px;
+  overflow-y: auto;
+  padding: 16px;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-smooth);
@@ -1744,12 +1745,15 @@ html.dark-mode .paste-bar-btn:focus-visible,
 /* Wolo-parity Info Dialog Card */
 .info-dialog-card {
   position: relative;
-  max-width: 440px;
+  max-width: 430px;
   width: 100%;
-  max-height: 88vh;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px 24px 34px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 18px 22px 26px;
   font-family: 'Abel', var(--font-sans);
   text-align: left;
   box-sizing: border-box;
@@ -1757,11 +1761,15 @@ html.dark-mode .paste-bar-btn:focus-visible,
   color: var(--text-muted);
 }
 
+.info-dialog-card::-webkit-scrollbar {
+  display: none;
+}
+
 /* Info Modal Version Indicator (Wolo Parity) */
 #info_version_indicator {
   position: absolute;
   bottom: 8px;
-  right: 20px;
+  right: 18px;
   -webkit-appearance: none;
   appearance: none;
   align-items: flex-end;
@@ -1802,7 +1810,7 @@ html.dark-mode #info_version_indicator,
 }
 
 #info_version_indicator .info_version_under {
-  display: grid;
+  display: none;
   font-size: 0.86em;
   font-weight: normal;
   justify-items: end;
@@ -1810,12 +1818,13 @@ html.dark-mode #info_version_indicator,
   pointer-events: none;
   position: absolute;
   right: 0;
-  top: calc(100% + 3px);
+  top: calc(100% + 2px);
 }
 
 #info_version_indicator:hover .info_version_under,
 #info_version_indicator:focus-visible .info_version_under,
 #info_version_indicator[aria-expanded='true'] .info_version_under {
+  display: grid;
   pointer-events: auto;
 }
 
@@ -1901,22 +1910,22 @@ html.dark-mode .icon-btn:focus-visible,
 
 .modal-close-wrapper {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   z-index: 5;
 }
 
 .info-dialog-header {
   text-align: center;
-  margin-top: 4px;
-  margin-bottom: 12px;
+  margin-top: 2px;
+  margin-bottom: 8px;
 }
 
 .info-logo-row {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .info-logo-link {
@@ -1925,39 +1934,39 @@ html.dark-mode .icon-btn:focus-visible,
 }
 
 .info-logo-link img {
-  height: 38px;
+  height: 32px;
   width: auto;
   display: block;
 }
 
 .info-slogan {
-  font-size: 1.35rem;
+  font-size: 1.18rem;
   color: #69b7cf;
-  margin-top: 4px;
+  margin-top: 2px;
   letter-spacing: 0.02em;
 }
 
 /* Intro Mode (First Visit/Login) */
 .info-intro-text {
-  font-size: 1.05rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--text-main);
   text-align: justify;
-  margin: 22px 6px 26px;
+  margin: 16px 4px 20px;
 }
 
 .info-intro-action {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .button_highlight {
   background-color: #69b7cf;
   border: 0;
   border-radius: 50%;
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1979,9 +1988,9 @@ html.dark-mode .icon-btn:focus-visible,
 /* Full Info View (Wolo Details & Moved Footer) */
 .info-format-badge {
   text-align: center;
-  margin: 10px 0 4px;
+  margin: 6px 0 2px;
   font-family: monospace;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 .info-format-badge span {
@@ -2005,36 +2014,36 @@ html.dark-mode .info-format-badge span {
 
 .info-format-example {
   text-align: center;
-  margin-bottom: 14px;
-  font-size: 0.88rem;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
   color: #888;
 }
 
 .info-summary-block {
-  font-size: 0.92rem;
-  line-height: 1.55;
-  margin-bottom: 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin-bottom: 8px;
   color: var(--text-muted);
 }
 
 .info-feature-list {
-  margin: 8px 0 0 18px;
+  margin: 4px 0 0 16px;
   padding: 0;
 }
 
 .info-feature-list li {
-  margin-bottom: 6px;
+  margin-bottom: 3px;
 }
 
 .info-links-table {
   width: 100%;
-  margin: 16px 0 14px;
+  margin: 8px 0 6px;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .info-links-table td {
-  padding: 4px 6px;
+  padding: 2px 4px;
 }
 
 .info-links-table td:first-child {
@@ -2052,28 +2061,28 @@ html.dark-mode .info-format-badge span {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 12px 0 14px;
+  margin: 8px 0;
   gap: 8px;
 }
 
 .info-disclaimer-note {
-  font-size: 0.78rem;
-  line-height: 1.45;
+  font-size: 0.72rem;
+  line-height: 1.35;
   color: var(--text-muted);
   border-top: 1px solid var(--border-light);
-  padding-top: 10px;
-  margin-top: 10px;
+  padding-top: 6px;
+  margin-top: 6px;
 }
 
 .info-footer-attribution {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 6px;
   color: var(--text-muted);
 }
 
 .info-agency {
-  margin-top: 4px;
+  margin-top: 2px;
   font-size: 0.85rem;
 }
 

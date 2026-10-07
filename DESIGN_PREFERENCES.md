@@ -144,6 +144,10 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Bottom-right corner version toggle (`#info_version_indicator`) showing short version `v1.1.1` at rest.
   - Hover or focus expands width to full version `v1.1.1.1` and displays elapsed time under it (hovering elapsed time reveals UTC timestamp).
   - A click/tap toggles `aria-expanded` to display the local timestamp while keeping the full version visible (hovering local stamp reveals UTC).
+- **Scrollbar-Free Compact Layout**:
+  - Spacing, line-heights, table padding, and element margins inside the info card are streamlined so all content (format spec, feature list, links table, social icons, disclaimer, and version indicator) fits cleanly within standard laptop and desktop viewports without triggering internal scrollbars.
+  - Backdrop overlay handles graceful scrolling (`overflow-y: auto; align-items: safe center;`) on exceptionally short mobile screens, while the modal card suppresses scrollbars (`scrollbar-width: none`).
+  - Version indicator stamp preview uses `display: none` at rest to prevent hidden layout overhang from inducing phantom vertical scrollbars.
 
 ---
 

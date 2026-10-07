@@ -74,6 +74,7 @@
     DOM.drawerClearAll = document.getElementById('drawer-clear-all');
     DOM.infoBtn = document.getElementById('info-modal-btn');
     DOM.infoModal = document.getElementById('info-modal');
+    DOM.infoVersionIndicator = document.getElementById('info_version_indicator');
     DOM.modalClose = document.getElementById('modal-close');
     DOM.toastContainer = document.getElementById('toast-container');
   }
@@ -151,6 +152,9 @@
 
     // URL parameter support: e.g. /?encode=hello or /?decode=cat+apple+mango
     handleUrlParams();
+
+    // Fill version stamps (Wolo parity)
+    fillInfoVersionStamps();
 
     // Check if first visit/login (Wolo parity)
     checkFirstVisit();
@@ -320,6 +324,11 @@
     }
     if (DOM.modalClose) {
       DOM.modalClose.addEventListener('click', hideInfoModal);
+    }
+    if (DOM.infoVersionIndicator) {
+      DOM.infoVersionIndicator.addEventListener('click', toggleInfoVersionDisplay);
+      DOM.infoVersionIndicator.addEventListener('mouseenter', fillInfoVersionStamps);
+      DOM.infoVersionIndicator.addEventListener('focus', fillInfoVersionStamps);
     }
     const introCloseBtn = document.getElementById('info_intro_close_button');
     if (introCloseBtn) {
@@ -824,7 +833,106 @@
     }
   }
 
+  // Info Version Indicator (Wolo Parity)
+  function getInfoVersionToggles() {
+    return [
+      document.getElementById('info_version_indicator')
+    ];
+  }
+
+  function getInfoUpdatedTimestamp() {
+    const indicator = document.getElementById('info_version_indicator');
+    if (!indicator) return '';
+    const updated = indicator.getAttribute('data-updated');
+    return updated ? updated.replace(/\s+/g, ' ').trim() : '';
+  }
+
+  function padInfoTimePart(value) {
+    return (value < 10 ? '0' : '') + value;
+  }
+
+  function formatInfoTimestamp(date, local) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    if (!date || isNaN(date.getTime())) return '';
+    if (local) {
+      let zone = '';
+      try {
+        const parts = new Intl.DateTimeFormat(undefined, { timeZoneName: 'short' }).formatToParts(date);
+        for (let i = 0; i < parts.length; i++) {
+          if (parts[i].type === 'timeZoneName') {
+            zone = parts[i].value;
+            break;
+          }
+        }
+      } catch (error) {
+        zone = '';
+      }
+      return date.getFullYear() + ' ' + months[date.getMonth()] + ' ' + padInfoTimePart(date.getDate()) + ' ' + padInfoTimePart(date.getHours()) + ':' + padInfoTimePart(date.getMinutes()) + ':' + padInfoTimePart(date.getSeconds()) + (zone ? ' ' + zone : '');
+    }
+    return date.getUTCFullYear() + ' ' + months[date.getUTCMonth()] + ' ' + padInfoTimePart(date.getUTCDate()) + ' ' + padInfoTimePart(date.getUTCHours()) + ':' + padInfoTimePart(date.getUTCMinutes()) + ':' + padInfoTimePart(date.getUTCSeconds()) + ' UTC';
+  }
+
+  function formatInfoElapsed(date) {
+    if (!date || isNaN(date.getTime())) return '';
+    let ms = Date.now() - date.getTime();
+    if (ms < 0) ms = 0;
+    const seconds = Math.floor(ms / 1000);
+    if (seconds < 10) return 'just now';
+    if (seconds < 60) return seconds + ' seconds ago';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes === 1) return '1 minute ago';
+    if (minutes < 60) return minutes + ' minutes ago';
+    const hours = Math.floor(minutes / 60);
+    if (hours === 1) return '1 hour ago';
+    if (hours < 24) return hours + ' hours ago';
+    const days = Math.floor(hours / 24);
+    if (days === 1) return '1 day ago';
+    if (days < 30) return days + ' days ago';
+    const months = Math.floor(days / 30);
+    if (months === 1) return '1 month ago';
+    if (months < 12) return months + ' months ago';
+    const years = Math.floor(days / 365);
+    if (years <= 1) return '1 year ago';
+    return years + ' years ago';
+  }
+
+  function fillInfoVersionStamps() {
+    const indicator = document.getElementById('info_version_indicator');
+    if (!indicator) return;
+    const utcNode = indicator.querySelector('.info_version_stamp_utc');
+    const elapsedNode = indicator.querySelector('.info_version_stamp_elapsed');
+    const localNode = indicator.querySelector('.info_version_local');
+    if (!utcNode || !elapsedNode || !localNode) return;
+    const updated = getInfoUpdatedTimestamp();
+    const date = updated ? new Date(updated) : null;
+    utcNode.textContent = formatInfoTimestamp(date) || updated;
+    elapsedNode.textContent = formatInfoElapsed(date) || '';
+    localNode.textContent = formatInfoTimestamp(date, true) || updated;
+  }
+
+  function setInfoVersionExpanded(expanded) {
+    fillInfoVersionStamps();
+    const nodes = getInfoVersionToggles();
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      if (!node) continue;
+      node.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+  }
+
+  function toggleInfoVersionDisplay(event) {
+    if (event) {
+      if (event.preventDefault) event.preventDefault();
+      if (event.stopPropagation) event.stopPropagation();
+    }
+    const indicator = document.getElementById('info_version_indicator');
+    const expanded = indicator && indicator.getAttribute('aria-expanded') === 'true';
+    setInfoVersionExpanded(!expanded);
+  }
+
   function showInfoModal(isIntro = false) {
+    setInfoVersionExpanded(false);
+    fillInfoVersionStamps();
     const introSection = document.getElementById('info-intro');
     const fullSection = document.getElementById('info-full');
     const closeBtn = document.getElementById('modal-close');
@@ -846,6 +954,7 @@
   }
 
   function hideInfoModal() {
+    setInfoVersionExpanded(false);
     if (DOM.infoModal) {
       DOM.infoModal.classList.remove('open');
       DOM.infoModal.setAttribute('aria-hidden', 'true');

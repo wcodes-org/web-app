@@ -88,7 +88,7 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-page);
   color: var(--text-main);
-  min-height: 100vh;
+  min-height: 100dvh;
   line-height: 1.5;
   display: flex;
   flex-direction: column;
@@ -145,8 +145,8 @@ a:hover {
   max-width: 1240px;
   height: 142px;
   top: 0;
-  left: 24px;
-  right: 24px;
+  left: 0;
+  right: 0;
   margin-left: auto;
   margin-right: auto;
   padding: 0;
@@ -245,7 +245,7 @@ a:hover {
 #header-right-list {
   text-align: center;
   margin: auto;
-  padding: 0 6px 0 0;
+  padding: 0;
   overflow: visible;
   display: inline-block;
   float: right;
@@ -773,7 +773,6 @@ html.dark-mode .item_block_text div,
 .mode-switch {
   display: inline-flex;
   background: var(--bg-card);
-  padding: 4px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-sm);
@@ -1738,12 +1737,120 @@ html.dark-mode .paste-bar-btn:focus-visible,
   width: 100%;
   max-height: 88vh;
   overflow-y: auto;
-  padding: 24px 24px 26px;
+  overflow-x: hidden;
+  padding: 24px 24px 34px;
   font-family: 'Abel', var(--font-sans);
   text-align: left;
   box-sizing: border-box;
   background-color: var(--bg-card);
   color: var(--text-muted);
+}
+
+/* Info Modal Version Indicator (Wolo Parity) */
+#info_version_indicator {
+  position: absolute;
+  bottom: 8px;
+  right: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  align-items: flex-end;
+  background: transparent;
+  border: none;
+  color: #bbbbbb;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Abel', sans-serif;
+  font-size: 0.78em;
+  line-height: 1;
+  margin: 0;
+  max-width: calc(100% - 132px);
+  overflow: visible;
+  padding: 0;
+  text-align: right;
+  z-index: 2;
+}
+
+html.dark-mode #info_version_indicator,
+[data-theme="dark"] #info_version_indicator {
+  color: #777777;
+}
+
+#info_version_indicator .info_version_text {
+  display: grid;
+  justify-items: end;
+}
+
+#info_version_indicator .info_version_width,
+#info_version_indicator .info_version_label {
+  grid-area: 1 / 1;
+}
+
+#info_version_indicator .info_version_width {
+  visibility: hidden;
+}
+
+#info_version_indicator .info_version_under {
+  display: grid;
+  font-size: 0.86em;
+  font-weight: normal;
+  justify-items: end;
+  line-height: 1.15;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 3px);
+}
+
+#info_version_indicator:hover .info_version_under,
+#info_version_indicator:focus-visible .info_version_under,
+#info_version_indicator[aria-expanded='true'] .info_version_under {
+  pointer-events: auto;
+}
+
+#info_version_indicator .info_version_stamp_utc,
+#info_version_indicator .info_version_stamp_elapsed,
+#info_version_indicator .info_version_local {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+#info_version_indicator:hover .info_version_width,
+#info_version_indicator:focus-visible .info_version_width,
+#info_version_indicator[aria-expanded='true'] .info_version_width {
+  visibility: visible;
+}
+
+#info_version_indicator:hover .info_version_label,
+#info_version_indicator:focus-visible .info_version_label,
+#info_version_indicator[aria-expanded='true'] .info_version_label {
+  visibility: hidden;
+}
+
+#info_version_indicator:hover .info_version_stamp_elapsed,
+#info_version_indicator:focus-visible .info_version_stamp_elapsed {
+  visibility: visible;
+}
+
+#info_version_indicator[aria-expanded='true'] .info_version_stamp_elapsed,
+#info_version_indicator[aria-expanded='true']:hover .info_version_stamp_elapsed,
+#info_version_indicator[aria-expanded='true']:focus-visible .info_version_stamp_elapsed {
+  visibility: hidden;
+}
+
+#info_version_indicator[aria-expanded='true'] .info_version_local {
+  visibility: visible;
+}
+
+#info_version_indicator .info_version_under:hover .info_version_stamp_elapsed,
+#info_version_indicator .info_version_under:hover .info_version_local,
+#info_version_indicator[aria-expanded='true'] .info_version_under:hover .info_version_local {
+  visibility: hidden;
+}
+
+#info_version_indicator .info_version_under:hover .info_version_stamp_utc {
+  visibility: visible;
 }
 
 .icon-btn {
@@ -1979,7 +2086,7 @@ html.dark-mode .info-format-badge span {
   max-width: 1240px;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 4px 40px;
+  padding: 4px 0;
 }
 
 #footer-actions-left {
@@ -2005,12 +2112,12 @@ html.dark-mode .info-format-badge span {
 }
 
 #footer-actions-bar .header-action-icon {
-  margin: 6px 4px;
+  margin: 6px 0;
 }
 
 @media (max-width: 540px) {
   #footer-actions-bar {
-    padding: 0 12px;
+    padding: 0 8px;
   }
 }
 
@@ -2127,7 +2234,7 @@ html.dark-mode .social:hover .image svg path {
     padding: 0;
   }
   .main-content {
-    padding: 16px 12px 32px;
+    padding: 16px 12px 20px;
   }
   .studio-card {
     padding: 16px;
@@ -2139,4 +2246,38 @@ html.dark-mode .social:hover .image svg path {
   .wcode-hero-display {
     font-size: 1.15rem;
   }
+}
+
+/* Match Wolo decode utility surfaces and align the right-hand controls. */
+#profile-button,
+#footer-actions-bar .header-action-icon {
+  appearance: none;
+  align-items: center;
+  background: rgb(255 255 255 / 50%);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: rgb(0 0 0 / 6%) 0 1px 4px -1px;
+  box-sizing: border-box;
+  color: #888;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 39px;
+  height: 39px;
+  justify-content: center;
+  padding: 5px;
+  position: relative;
+  width: 39px;
+}
+#profile-button { margin: 12px 0; }
+#profile-button svg,
+#footer-actions-bar .header-action-icon svg {
+  display: block;
+  height: 29px;
+  width: 29px;
+}
+html.dark-mode #profile-button,
+html.dark-mode #footer-actions-bar .header-action-icon {
+  background: rgb(34 34 68 / 70%);
 }

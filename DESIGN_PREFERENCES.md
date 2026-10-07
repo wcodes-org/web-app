@@ -69,7 +69,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Zero-Clutter Root**:
   - The traditional footer (divider, social icon links, text links list, disclaimer text, copyright) is removed entirely from the root application page (`/`).
   - All footer content is relocated into the **Info Modal**:
-    - **Navigation Links Table**: About (`/about`), WordList (`/wordlist`), FAQ (`/faq`), Terms (`/terms`), Privacy Policy (`/policy`).
+    - **Navigation Links Table**: About (`/about`), Grokipedia (`https://grokipedia.com/page/WCode`), WordList (`/wordlist`), FAQ (`/faq`), Terms (`/terms`), Privacy Policy (`/policy`).
     - **Social Media Icons**: Clean SVG icon row for Twitter/X, Facebook, and YouTube with brand tint hover transitions.
     - **Site Disclaimer**: Centered informational and liability disclaimer block.
     - **Attribution & Rights**: Copyright notices, license links, and author attribution (`by Ujjwal Singh`).
@@ -138,6 +138,10 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Clicking Proceed sets `localStorage.note_version = CURRENT_NOTE_VERSION` and dismisses the prompt.
 - **Full Info Window on Demand**:
   - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, navigation links table, social links, disclaimer, and author credits.
+- **Version Indicator (Wolo Parity)**:
+  - Bottom-right corner version toggle (`#info_version_indicator`) showing short version `v1.1.1` at rest.
+  - Hover or focus expands width to full version `v1.1.1.1` and displays elapsed time under it (hovering elapsed time reveals UTC timestamp).
+  - A click/tap toggles `aria-expanded` to display the local timestamp while keeping the full version visible (hovering local stamp reveals UTC).
 
 ---
 

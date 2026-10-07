@@ -65,14 +65,17 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ---
 
-## 8. Root Footer Removal & Info Modal Consolidation (Wolo Parity)
-- **Zero-Clutter Root**:
-  - The traditional footer (divider, social icon links, text links list, disclaimer text, copyright) is removed entirely from the root application page (`/`).
-  - All footer content is relocated into the **Info Modal**:
-    - **Navigation Links Table**: About (`/about`), Grokipedia (`https://grokipedia.com/page/WCode`), WordList (`/wordlist`), FAQ (`/faq`), Terms (`/terms`), Privacy Policy (`/policy`).
-    - **Social Media Icons**: Clean SVG icon row for Twitter/X, Facebook, and YouTube with brand tint hover transitions.
-    - **Site Disclaimer**: Centered informational and liability disclaimer block.
-    - **Attribution & Rights**: Copyright notices, license links, and author attribution (`by Ujjwal Singh`).
+## 8. Bifurcated Modals Architecture (Wolo Parity)
+- **Two Distinct Modals**:
+  - Parity with Wolo Code's separation between app usage guidance and corporate/legal/store links:
+  - **Info Modal (`#info-modal`) — App Usage**:
+    - Connected to the **Info 'i' icon** (`#info-modal-btn`) on the bottom-left flank of `#footer-actions-bar`.
+    - Dedicated purely to app usage, format specifications (`\ Word 1 Word 2 Word 3 /`), 1024-word codec overview, CRC-8 error detection, usage steps, direct `/about` link, back/close control, and version indicator (`#info_version_indicator`).
+    - Also serves the first-access cookie/privacy acceptance intro (`#info-intro`) on initial visits.
+  - **Links & Credits Modal (`#links-modal`) — Links, Credits, and App Store**:
+    - Connected to the **'WCode' author link** (`#footer_author`) in the bottom-center footer copyright line (`Copyright © 2026 WCode`).
+    - Dedicated to navigation links (About, Grokipedia, WordList, FAQ, Terms of Use, Privacy Policy, Contact, Source Code), social links (Twitter/X, Facebook, YouTube), unified downloads link (`/downloads`), Google Play app store badge, open-source projects credits & credits page link (`/credits`), site disclaimer, and creator attribution (`by Ujjwal Singh`).
+    - Does not show the technical version indicator, keeping the focus strictly on discovery and external references.
 
 ---
 
@@ -139,14 +142,14 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Displays the cookie & privacy acceptance notice with a prominent cyan circular Proceed button (`.button_highlight` with forward arrow SVG).
   - Clicking Proceed sets `localStorage.note_version = CURRENT_NOTE_VERSION` and dismisses the prompt.
 - **Full Info Window on Demand**:
-  - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, navigation links table, social links, disclaimer, and author credits.
+  - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, step-by-step usage guide, back/close control, and direct link to `wcode.codes/about`.
 - **Version Indicator (Wolo Parity)**:
   - Bottom-right corner version toggle (`#info_version_indicator`) showing short version `v1.1.1` at rest.
   - Hover or focus expands width to full version `v1.1.1.1` and displays elapsed time under it (hovering elapsed time reveals UTC timestamp).
   - A click/tap toggles `aria-expanded` to display the local timestamp while keeping the full version visible (hovering local stamp reveals UTC).
 - **Scrollbar-Free Compact Layout**:
-  - Spacing, line-heights, table padding, and element margins inside the info card are streamlined so all content (format spec, feature list, links table, social icons, disclaimer, and version indicator) fits cleanly within standard laptop and desktop viewports without triggering internal scrollbars.
-  - Backdrop overlay handles graceful scrolling (`overflow-y: auto; align-items: safe center;`) on exceptionally short mobile screens, while the modal card suppresses scrollbars (`scrollbar-width: none`).
+  - Spacing, line-heights, and element margins inside both modal cards (`.info-dialog-card` and `.links-dialog-card`) are streamlined so content fits cleanly within standard laptop and desktop viewports without triggering internal scrollbars.
+  - Backdrop overlay handles graceful scrolling (`overflow-y: auto; align-items: safe center;`) on exceptionally short mobile screens, while the modal cards suppress scrollbars (`scrollbar-width: none`).
   - Version indicator stamp preview uses `display: none` at rest to prevent hidden layout overhang from inducing phantom vertical scrollbars.
 
 ---
@@ -166,9 +169,10 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Header Profile & Theme Integration (Wolo Parity)**:
   - A circled Profile icon button (`#profile-button`) is placed at the top-right of the header bar (`#header-right-list`), matching Wolo's account architecture.
   - Clicking the profile icon opens the Profile & Settings menu (`#profile-menu`) containing user identity ("Guest") and the **Appearance / Theme selector** (System, Light, Dark).
-  - The standalone theme selector is removed from the footer, leaving the bottom actions bar cleanly dedicated to the Info icon on the left, centered copyright, and History/Saved drawer toggle on the right.
+  - The standalone theme selector is removed from the footer, leaving the bottom actions bar cleanly dedicated to the Info icon on the left, centered copyright and WCode author trigger, and History/Saved drawer toggle on the right.
 - **Root Bottom Copyright & Modal Parity**:
-  - The copyright notice (`Copyright © 2026 WCode`) is positioned at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
+  - The copyright notice (`Copyright © 2026`) and author brand trigger (`WCode`) sit at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
+  - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links, downloads, app store, credits, and disclaimer.
   - Info modal references the canonical vector brand asset (`/Resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
 
 

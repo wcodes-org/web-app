@@ -76,6 +76,10 @@
     DOM.infoModal = document.getElementById('info-modal');
     DOM.infoVersionIndicator = document.getElementById('info_version_indicator');
     DOM.modalClose = document.getElementById('modal-close');
+    DOM.infoFullCloseBtn = document.getElementById('info_full_close_button');
+    DOM.linksModal = document.getElementById('links-modal');
+    DOM.linksModalClose = document.getElementById('links-modal-close');
+    DOM.footerAuthor = document.getElementById('footer_author');
     DOM.toastContainer = document.getElementById('toast-container');
   }
 
@@ -318,12 +322,15 @@
     });
     DOM.drawerClearAll.addEventListener('click', clearAllHistory);
 
-    // Info Modal (Wolo parity)
+    // Info Modal (App usage - Wolo parity)
     if (DOM.infoBtn) {
       DOM.infoBtn.addEventListener('click', () => showInfoModal(false));
     }
     if (DOM.modalClose) {
       DOM.modalClose.addEventListener('click', hideInfoModal);
+    }
+    if (DOM.infoFullCloseBtn) {
+      DOM.infoFullCloseBtn.addEventListener('click', hideInfoModal);
     }
     if (DOM.infoVersionIndicator) {
       DOM.infoVersionIndicator.addEventListener('click', toggleInfoVersionDisplay);
@@ -350,6 +357,27 @@
       });
     }
 
+    // Links & Credits Modal (Connected to 'WCode' in footer - Wolo parity)
+    if (DOM.footerAuthor) {
+      DOM.footerAuthor.addEventListener('click', showLinksModal);
+      DOM.footerAuthor.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          showLinksModal();
+        }
+      });
+    }
+    if (DOM.linksModalClose) {
+      DOM.linksModalClose.addEventListener('click', hideLinksModal);
+    }
+    if (DOM.linksModal) {
+      DOM.linksModal.addEventListener('click', (e) => {
+        if (e.target === DOM.linksModal) {
+          hideLinksModal();
+        }
+      });
+    }
+
     // Keyboard escape to close modals/drawer
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -359,6 +387,7 @@
         if (!isIntroActive) {
           hideInfoModal();
         }
+        hideLinksModal();
       }
     });
   }
@@ -931,6 +960,7 @@
   }
 
   function showInfoModal(isIntro = false) {
+    hideLinksModal();
     setInfoVersionExpanded(false);
     fillInfoVersionStamps();
     const introSection = document.getElementById('info-intro');
@@ -958,6 +988,21 @@
     if (DOM.infoModal) {
       DOM.infoModal.classList.remove('open');
       DOM.infoModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function showLinksModal() {
+    hideInfoModal();
+    if (DOM.linksModal) {
+      DOM.linksModal.classList.add('open');
+      DOM.linksModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function hideLinksModal() {
+    if (DOM.linksModal) {
+      DOM.linksModal.classList.remove('open');
+      DOM.linksModal.setAttribute('aria-hidden', 'true');
     }
   }
 

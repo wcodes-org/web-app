@@ -2035,6 +2035,60 @@ html.dark-mode .info-format-badge span {
   margin-bottom: 3px;
 }
 
+.info-steps-block {
+  margin: 8px 0 6px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.info-steps-block h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.info-steps-block ul {
+  margin: 0 0 0 16px;
+  padding: 0;
+}
+
+.info-steps-block li {
+  margin-bottom: 3px;
+}
+
+.message_dialog_control_container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 6px;
+}
+
+.message_dialog_control {
+  font-size: smaller;
+}
+
+#info_full_close_button {
+  width: 44px;
+  height: 44px;
+}
+
+#info_full_close_button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.info-about-link {
+  text-align: center;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+/* Links & Credits Modal Card */
+.links-dialog-card {
+  max-width: 430px;
+}
+
 .info-links-table {
   width: 100%;
   margin: 8px 0 6px;
@@ -2063,6 +2117,46 @@ html.dark-mode .info-format-badge span {
   align-items: center;
   margin: 8px 0;
   gap: 8px;
+}
+
+#download-unified-url {
+  text-align: center;
+  font-size: 0.88rem;
+  margin: 6px 0 4px;
+}
+
+#download-unified-url span {
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+#download-android-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0 8px;
+}
+
+#download-android-bottom a {
+  display: inline-block;
+  line-height: 0;
+  transition: transform var(--transition-fast);
+}
+
+#download-android-bottom a:hover {
+  transform: scale(1.05);
+}
+
+.info-credits-block {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 8px 0;
+}
+
+.info-credits-block .center {
+  margin-top: 2px;
 }
 
 .info-disclaimer-note {
@@ -2123,6 +2217,20 @@ html.dark-mode .info-format-badge span {
 
 .footer-root-copyright a {
   text-decoration: none;
+}
+
+.footer-author-link {
+  cursor: pointer;
+  margin-left: 5px;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer-author-link:hover,
+.footer-author-link:focus-visible {
+  color: #69b7cf;
+  outline: none;
+  text-decoration: underline;
 }
 
 #footer-actions-right {

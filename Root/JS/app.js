@@ -80,6 +80,7 @@
     DOM.linksModal = document.getElementById('links-modal');
     DOM.linksModalClose = document.getElementById('links-modal-close');
     DOM.footerAuthor = document.getElementById('footer_author');
+    DOM.locationAlternate = document.getElementById('location-alternate');
     DOM.toastContainer = document.getElementById('toast-container');
   }
 
@@ -448,6 +449,11 @@
       DOM.helperBtn.onclick = cfg.helper.action;
     } else {
       DOM.helperBtn.style.display = 'none';
+    }
+
+    // Dedicated location alternate app (Wolo Code) visibility
+    if (DOM.locationAlternate) {
+      DOM.locationAlternate.style.display = (state.type === 'location') ? 'block' : 'none';
     }
   }
 
@@ -1085,6 +1091,12 @@
   // URL Query Parameters support: /?wcode=cat+apple+mango
   function handleUrlParams() {
     const params = new URLSearchParams(window.location.search);
+    if (params.has('type')) {
+      const paramType = params.get('type').toLowerCase();
+      if (TYPE_CONFIG[paramType]) {
+        setType(paramType);
+      }
+    }
     if (params.has('encode')) {
       setMode('encode');
       DOM.encodeInput.value = params.get('encode');

@@ -175,5 +175,11 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links, downloads, app store, credits, and disclaimer.
   - Info modal references the canonical vector brand asset (`/Resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
 
+---
 
-
+## 17. Location Mode Dedicated App Alternate (Wolo Code)
+- **Contextual Discovery in Location Mode**:
+  - When the user selects **Location** mode (`state.type === 'location'`), a dedicated alternate card (`#location-alternate`) appears directly below the primary action button (`.controls-bar-outside`).
+  - Highlights **Wolo Code** (`wolo.codes`) as the specialized location application powered by WCode technology.
+  - Features the standard Cutie Wolo Code tile (`/Resource/wolo_code.svg` with "wolo.codes" label and external link icon) and descriptive copy explaining that Wolo Code is an alternate dedicated application for GPS coordinates and addresses with 3 words.
+  - Automatically hidden across all other data types (Auto, Text, Number, Phone, Email, URL, Date, Time) to maintain a lean, distraction-free workspace.

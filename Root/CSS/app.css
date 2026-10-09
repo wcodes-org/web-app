@@ -2183,6 +2183,11 @@ html.dark-mode .icon-btn:focus-visible,
   text-decoration: none;
 }
 
+.info-logo-link:hover,
+.info-logo-link:focus-visible {
+  text-decoration: none;
+}
+
 .info-logo-link img {
   height: 32px;
   width: auto;
@@ -2334,6 +2339,21 @@ html.dark-mode .info-format-badge span {
   font-size: 0.9rem;
 }
 
+.info-about-link a,
+#wcode_about a,
+.info-links-table a[href="/about"] {
+  text-decoration: none;
+}
+
+.info-about-link a:hover,
+.info-about-link a:focus-visible,
+#wcode_about a:hover,
+#wcode_about a:focus-visible,
+.info-links-table a[href="/about"]:hover,
+.info-links-table a[href="/about"]:focus-visible {
+  text-decoration: none;
+}
+
 /* Links & Credits Modal Card */
 .links-dialog-card {
   max-width: 430px;
@@ -2473,6 +2493,7 @@ html.dark-mode .info-format-badge span {
   cursor: pointer;
   margin-left: 5px;
   color: var(--text-muted);
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
@@ -2480,7 +2501,7 @@ html.dark-mode .info-format-badge span {
 .footer-author-link:focus-visible {
   color: #69b7cf;
   outline: none;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 #footer-actions-right {

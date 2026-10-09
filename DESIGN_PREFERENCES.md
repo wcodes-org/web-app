@@ -76,6 +76,8 @@ This document outlines the design principles, interaction patterns, and UI prefe
     - Connected to the **'WCode' author link** (`#footer_author`) in the bottom-center footer copyright line (`Copyright © 2026 WCode`).
     - Dedicated to navigation links (About, Grokipedia, WordList, FAQ, Terms of Use, Privacy Policy, Contact, Source Code), social links (Twitter/X, Facebook, YouTube), unified downloads link (`/downloads`), Google Play app store badge, open-source projects credits & credits page link (`/credits`), site disclaimer, and creator attribution (`by Ujjwal Singh`).
     - Does not show the technical version indicator, keeping the focus strictly on discovery and external references.
+- **Non-Underlined Brand Link Hover**:
+  - Consistent with Wolo parity, neither the `'WCode'` footer author link (`#footer_author`) nor the WCode about link (`#wcode_about a`, `.info-about-link a`) in the info modal display an underline when hovered or focused (`text-decoration: none;`). Logo headers in modal cards also do not underline on hover.
 
 ---
 

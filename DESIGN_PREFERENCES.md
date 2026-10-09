@@ -173,7 +173,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Root Bottom Copyright & Modal Parity**:
   - The copyright notice (`Copyright © 2026`) and author brand trigger (`WCode`) sit at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
   - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links, downloads, app store, credits, and disclaimer.
-  - Info modal references the canonical vector brand asset (`/Resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
+  - Info modal references the canonical vector brand asset (`/resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
 
 ---
 
@@ -181,5 +181,5 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Contextual Discovery in Location Mode**:
   - When the user selects **Location** mode (`state.type === 'location'`), a dedicated alternate card (`#location-alternate`) appears directly below the primary action button (`.controls-bar-outside`).
   - Highlights **Wolo Code** (`wolo.codes`) as the specialized location application powered by WCode technology.
-  - Features the standard Cutie Wolo Code tile (`/Resource/wolo_code.svg` with "wolo.codes" label and external link icon) and descriptive copy explaining that Wolo Code is an alternate dedicated application for GPS coordinates and addresses with 3 words.
+  - Features the standard Cutie Wolo Code tile (`/resource/wolo_code.svg` with "wolo.codes" label and external link icon) and descriptive copy explaining that Wolo Code is an alternate dedicated application for GPS coordinates and addresses with 3 words.
   - Automatically hidden across all other data types (Auto, Text, Number, Phone, Email, URL, Date, Time) to maintain a lean, distraction-free workspace.

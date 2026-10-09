@@ -1,5 +1,5 @@
 // WCode Service Worker for offline capability
-const CACHE_NAME = 'wcode-v2';
+const CACHE_NAME = 'wcode-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -8,7 +8,7 @@ const STATIC_ASSETS = [
   '/JS/wcode-core.js',
   '/JS/app.js',
   '/manifest.json',
-  '/Resource/logo_small.svg'
+  '/resource/logo_small.svg'
 ];
 
 self.addEventListener('install', (event) => {

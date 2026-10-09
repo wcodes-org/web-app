@@ -210,6 +210,20 @@
       handleDecodeSuggestions();
     });
 
+    DOM.decodeInput.addEventListener('paste', (event) => {
+      if (!event.clipboardData) return;
+      event.preventDefault();
+      const pastedWords = trimDecodeInput(event.clipboardData.getData('text/plain'));
+      DOM.decodeInput.setRangeText(pastedWords, DOM.decodeInput.selectionStart, DOM.decodeInput.selectionEnd, 'end');
+      const value = DOM.decodeInput.value;
+      const caret = DOM.decodeInput.selectionStart;
+      const leadingLength = value.length - value.replace(/^[\s\\/\-]+/, '').length;
+      DOM.decodeInput.value = trimDecodeInput(value);
+      const position = Math.max(0, Math.min(DOM.decodeInput.value.length, caret - leadingLength));
+      DOM.decodeInput.setSelectionRange(position, position);
+      handleDecodeSuggestions();
+    });
+
     new ResizeObserver(updateDecodeInputHeight).observe(DOM.decodeInput);
 
     // Quick helpers
@@ -232,7 +246,8 @@
         if (state.mode === 'encode') {
           DOM.encodeInput.value = text;
         } else {
-          DOM.decodeInput.value = text.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '').trim();
+          DOM.decodeInput.value = trimDecodeInput(text);
+          handleDecodeSuggestions();
         }
         executeTransform(true);
         showToast('Pasted from clipboard');
@@ -496,29 +511,20 @@
     executeTransform(true);
   }
 
+  function trimDecodeInput(value) {
+    return value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '');
+  }
+
   function updateDecodeInputHeight() {
     if (!DOM.decodeInput.clientWidth) return;
     DOM.decodeInput.style.height = 'auto';
     DOM.decodeInput.style.height = `${DOM.decodeInput.scrollHeight}px`;
 
-    // Mirror the textarea's wrapping so the delimiter follows the final word.
-    const enclosure = DOM.decodeInput.parentElement;
-    let mirror = enclosure.querySelector('.wcode-input-mirror');
-    if (!mirror) {
-      mirror = document.createElement('div');
-      mirror.className = 'wcode-text-field wcode-input-mirror';
-      mirror.setAttribute('aria-hidden', 'true');
-      enclosure.querySelector('.wcode-slash:last-child').remove();
-      enclosure.appendChild(mirror);
-    }
-    mirror.style.left = `${DOM.decodeInput.offsetLeft}px`;
-    mirror.style.top = `${DOM.decodeInput.offsetTop}px`;
-    mirror.style.width = `${DOM.decodeInput.offsetWidth}px`;
-    mirror.textContent = DOM.decodeInput.value;
-    const slash = document.createElement('span');
-    slash.className = 'wcode-closing-slash';
-    slash.textContent = ' /';
-    mirror.appendChild(slash);
+    const styles = getComputedStyle(DOM.decodeInput);
+    const lineHeight = parseFloat(styles.lineHeight);
+    const padding = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+    const lines = Math.max(1, Math.round((DOM.decodeInput.scrollHeight - padding) / lineHeight));
+    DOM.decodeInput.parentElement.style.setProperty('--closing-slash-offset', `${(lines - 1) * lineHeight}px`);
   }
 
   // Autocomplete / Suggestions for Decode Mode

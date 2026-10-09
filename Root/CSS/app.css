@@ -1103,23 +1103,8 @@ html.dark-mode .paste-bar-btn:focus-visible,
   grid-row: 1;
 }
 
-.wcode-text-field.wcode-input-mirror {
-  position: absolute;
-  height: auto;
-  color: transparent;
-  overflow: visible;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-  pointer-events: none;
-  user-select: none;
-}
-
-.wcode-closing-slash {
-  display: inline-block;
-  width: 0;
-  white-space: pre;
-  color: var(--brand-primary);
-  font-weight: 700;
+.wcode-slash:last-child {
+  transform: translateY(var(--closing-slash-offset, 0px));
 }
 
 .wcode-text-field {

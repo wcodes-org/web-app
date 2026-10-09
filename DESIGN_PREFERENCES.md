@@ -78,6 +78,10 @@ This document outlines the design principles, interaction patterns, and UI prefe
     - Does not show the technical version indicator, keeping the focus strictly on discovery and external references.
 - **Non-Underlined Brand Link Hover**:
   - Consistent with Wolo parity, neither the `'WCode'` footer author link (`#footer_author`) nor the WCode about link (`#wcode_about a`, `.info-about-link a`) in the info modal display an underline when hovered or focused (`text-decoration: none;`). Logo headers in modal cards also do not underline on hover.
+- **Info Modal Back Button Animation & Affordance**:
+  - `#info_full_close_button` uses a 48px circular highlight button (`.button_highlight`) with GPU-composited rendering (`transform: translateZ(0); backface-visibility: hidden;`).
+  - Smooth hover scaling (`scale(1.05)`) with an elevated glow shadow (`box-shadow: 0 6px 18px rgba(105, 183, 207, 0.55);`), tactile active depression (`scale(0.95)`), and keyboard `:focus-visible` ring.
+  - Directional micro-interaction: hovering or focusing the button gently glides the back arrow leftward (`transform: translateX(-3px);`), providing a fluid and intuitive navigational cue without jitter.
 
 ---
 

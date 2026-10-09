@@ -1334,8 +1334,13 @@ html.dark-mode .paste-bar-btn:focus-visible,
 
 /* Location Mode Dedicated App Alternate (Wolo Code) */
 .location-alternate-container {
-  margin-top: 20px;
-  margin-bottom: 8px;
+  max-width: 860px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px auto 24px;
+  padding: 0 16px;
+  font-size: 1rem;
+  text-align: left;
   animation: fadeInDown var(--transition-smooth) ease-out;
 }
 

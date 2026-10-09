@@ -210,6 +210,8 @@
       handleDecodeSuggestions();
     });
 
+    new ResizeObserver(updateDecodeInputHeight).observe(DOM.decodeInput);
+
     // Quick helpers
     DOM.clearBtn.addEventListener('click', () => {
       if (state.mode === 'encode') {
@@ -217,6 +219,7 @@
         DOM.encodeInput.focus();
       } else {
         DOM.decodeInput.value = '';
+        updateDecodeInputHeight();
         DOM.suggestionsBox.innerHTML = '';
         DOM.decodeInput.focus();
       }
@@ -493,8 +496,15 @@
     executeTransform(true);
   }
 
+  function updateDecodeInputHeight() {
+    if (!DOM.decodeInput.clientWidth) return;
+    DOM.decodeInput.style.height = 'auto';
+    DOM.decodeInput.style.height = `${DOM.decodeInput.scrollHeight}px`;
+  }
+
   // Autocomplete / Suggestions for Decode Mode
   function handleDecodeSuggestions() {
+    updateDecodeInputHeight();
     const text = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '');
     const tokens = text.toLowerCase().split(/\s+/);
     const lastToken = tokens[tokens.length - 1];
@@ -561,6 +571,8 @@
       }
     } else {
       const rawWords = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '').trim();
+      DOM.decodeInput.value = rawWords;
+      updateDecodeInputHeight();
       if (!rawWords) {
         if (showErrorToast) showToast('Please enter WCode words to decode', 'warning');
         return;
@@ -576,6 +588,8 @@
   }
 
   function renderEncodeOutput(res) {
+    DOM.outputSection.classList.remove('is-decoded');
+    DOM.outputSection.querySelector('.output-card').prepend(DOM.outputBadge.parentElement);
     DOM.outputSection.style.display = 'block';
     DOM.encodeOutputView.style.display = 'block';
     DOM.decodeOutputView.style.display = 'none';
@@ -607,6 +621,8 @@
   }
 
   function renderDecodeOutput(res) {
+    DOM.outputSection.classList.add('is-decoded');
+    DOM.outputSection.prepend(DOM.outputBadge.parentElement);
     DOM.outputSection.style.display = 'block';
     DOM.encodeOutputView.style.display = 'none';
     DOM.decodeOutputView.style.display = 'block';

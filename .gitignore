@@ -1,0 +1,9 @@
+# Same generated/scratch paths Wolo's web-app ignores.
+**/Archive
+**/Thumbs.db
+.firebase/*.cache
+firebase-debug.log
+ui-debug.log
+public
+interim
+.playwright-cli/

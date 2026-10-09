@@ -500,6 +500,25 @@
     if (!DOM.decodeInput.clientWidth) return;
     DOM.decodeInput.style.height = 'auto';
     DOM.decodeInput.style.height = `${DOM.decodeInput.scrollHeight}px`;
+
+    // Mirror the textarea's wrapping so the delimiter follows the final word.
+    const enclosure = DOM.decodeInput.parentElement;
+    let mirror = enclosure.querySelector('.wcode-input-mirror');
+    if (!mirror) {
+      mirror = document.createElement('div');
+      mirror.className = 'wcode-text-field wcode-input-mirror';
+      mirror.setAttribute('aria-hidden', 'true');
+      enclosure.querySelector('.wcode-slash:last-child').remove();
+      enclosure.appendChild(mirror);
+    }
+    mirror.style.left = `${DOM.decodeInput.offsetLeft}px`;
+    mirror.style.top = `${DOM.decodeInput.offsetTop}px`;
+    mirror.style.width = `${DOM.decodeInput.offsetWidth}px`;
+    mirror.textContent = DOM.decodeInput.value;
+    const slash = document.createElement('span');
+    slash.className = 'wcode-closing-slash';
+    slash.textContent = ' /';
+    mirror.appendChild(slash);
   }
 
   // Autocomplete / Suggestions for Decode Mode
@@ -533,6 +552,7 @@
       chip.addEventListener('click', () => {
         tokens[tokens.length - 1] = word;
         DOM.decodeInput.value = tokens.join(' ') + ' ';
+        updateDecodeInputHeight();
         DOM.suggestionsBox.innerHTML = '';
         DOM.decodeInput.focus();
         // Check if full code can be decoded

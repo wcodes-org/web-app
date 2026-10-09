@@ -1071,8 +1071,9 @@ html.dark-mode .paste-bar-btn:focus-visible,
 }
 
 .wcode-input-enclosure {
+  position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) 24px;
   grid-template-rows: auto 1fr;
   align-items: flex-start;
   min-height: 104px;
@@ -1102,8 +1103,23 @@ html.dark-mode .paste-bar-btn:focus-visible,
   grid-row: 1;
 }
 
-.wcode-slash:last-child {
-  align-self: end;
+.wcode-text-field.wcode-input-mirror {
+  position: absolute;
+  height: auto;
+  color: transparent;
+  overflow: visible;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  pointer-events: none;
+  user-select: none;
+}
+
+.wcode-closing-slash {
+  display: inline-block;
+  width: 0;
+  white-space: pre;
+  color: var(--brand-primary);
+  font-weight: 700;
 }
 
 .wcode-text-field {

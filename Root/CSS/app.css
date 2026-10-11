@@ -1226,6 +1226,7 @@ html.dark-mode .paste-bar-btn:focus-visible,
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   margin-top: 16px;
   margin-bottom: 8px;
   padding: 0 4px;
@@ -1315,6 +1316,60 @@ html.dark-mode .paste-bar-btn:focus-visible,
   width: 18px;
   height: 18px;
   fill: currentColor;
+}
+
+/* Subtle Action Button (Swap Mode on same horizontal line) */
+.action-btn-subtle {
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.action-btn-subtle svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  opacity: 0.72;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  pointer-events: none;
+}
+
+.action-btn-subtle:hover,
+.action-btn-subtle:focus-visible {
+  color: var(--brand-primary);
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.18);
+  transform: translateY(-1px);
+}
+
+.action-btn-subtle:hover svg,
+.action-btn-subtle:focus-visible svg {
+  opacity: 1;
+}
+
+.action-btn-subtle:active {
+  transform: translateY(0);
+}
+
+html.dark-mode .action-btn-subtle:hover,
+html.dark-mode .action-btn-subtle:focus-visible,
+[data-theme="dark"] .action-btn-subtle:hover,
+[data-theme="dark"] .action-btn-subtle:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 /* Location Mode Dedicated App Alternate (Wolo Code) */
@@ -1855,7 +1910,9 @@ html.dark-mode .encode-info-btn .action-tooltip::after,
 .action-link-btn:hover .action-tooltip,
 .action-link-btn:focus-visible .action-tooltip,
 .tool-btn:hover .action-tooltip,
-.tool-btn:focus-visible .action-tooltip {
+.tool-btn:focus-visible .action-tooltip,
+.action-btn-subtle:hover .action-tooltip,
+.action-btn-subtle:focus-visible .action-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);

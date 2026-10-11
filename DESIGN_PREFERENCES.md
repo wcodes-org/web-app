@@ -188,8 +188,11 @@ This document outlines the design principles, interaction patterns, and UI prefe
     - Verification state (`CRC-8 Verified` / `Standard`) subtly muted at the bottom.
   - Technical bit count and Base-1024 references are excluded.
 - **Output Toolbar Zero-Shift Tooltips**:
-  - Toolbar action buttons at the bottom of the output section (`Copy`, `Speak`, `Share`, `Save`, `Swap`) are compact 38px circular icon buttons (`.tool-btn`).
+  - Toolbar action buttons at the bottom of the output section (`Copy`, `Speak`, `Share`, `Save`) are compact 38px circular icon buttons (`.tool-btn`).
   - Expanding text labels on hover are replaced by centered floating tooltips (`.action-tooltip`) positioned directly above each button (`bottom: calc(100% + 8px)`), eliminating all horizontal and vertical layout shifts.
+- **Subtle Swap Button (Primary Action Row)**:
+  - The mode swap control (`#tool-swap`) sits on the same horizontal line as the primary action button ("Encode to WCode" / "Decode WCode") within `.controls-bar-outside`.
+  - Styled as a subtle 36px circular icon button (`.action-btn-subtle`) with muted icon opacity at rest (`0.72`) and soft hover activation (`rgba(2, 132, 199, 0.08)` / dark `rgba(255, 255, 255, 0.08)`), equipped with a zero-shift tooltip ("Swap Mode").
 
 ---
 

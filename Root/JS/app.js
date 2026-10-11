@@ -172,6 +172,7 @@
     // Update UI elements to match initial state
     updateTypeUI();
     updateModeUI();
+    updateSwapButtonVisibility();
     updateHistoryBadge();
 
     // URL parameter support: e.g. /?encode=hello or /?decode=cat+apple+mango
@@ -223,6 +224,10 @@
       }
     });
 
+    DOM.encodeInput.addEventListener('input', () => {
+      updateSwapButtonVisibility();
+    });
+
     DOM.decodeInput.addEventListener('keydown', (e) => {
       if (e.key === 'Tab' && !e.shiftKey) {
         e.preventDefault();
@@ -264,6 +269,7 @@
     DOM.clearBtn.addEventListener('click', () => {
       if (state.mode === 'encode') {
         DOM.encodeInput.value = '';
+        updateSwapButtonVisibility();
         DOM.encodeInput.focus();
       } else {
         DOM.decodeInput.value = '';
@@ -279,6 +285,7 @@
         const text = await navigator.clipboard.readText();
         if (state.mode === 'encode') {
           DOM.encodeInput.value = text;
+          updateSwapButtonVisibility();
         } else {
           DOM.decodeInput.value = trimDecodeInput(text);
           updateDecodeInputHeight();
@@ -450,6 +457,7 @@
     if (state.mode === newMode) return;
     state.mode = newMode;
     updateModeUI();
+    updateSwapButtonVisibility();
     DOM.suggestionsBox.innerHTML = '';
     DOM.outputSection.style.display = 'none';
   }
@@ -549,6 +557,48 @@
 
   function trimDecodeInput(value) {
     return value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '');
+  }
+
+  function isLikelyWCode(text) {
+    if (!text || typeof text !== 'string') return false;
+    const trimmed = text.trim();
+    if (!trimmed) return false;
+
+    // Direct format check: framed by slashes (e.g. \ words / or \words/)
+    if (/^[\\\/].+[\\\/]$/.test(trimmed)) return true;
+
+    // Token-based dictionary check
+    const clean = trimmed
+      .replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '')
+      .replace(/[\\\/,;.–—\-]/g, ' ')
+      .trim()
+      .toLowerCase();
+    const tokens = clean.split(/\s+/).filter(Boolean);
+
+    // Need at least 2 tokens to suggest WCode sequence
+    if (tokens.length < 2) return false;
+
+    if (!state.core || !state.core.dict) return false;
+
+    let validCount = 0;
+    for (const token of tokens) {
+      if (state.core.dict.isValid(token)) {
+        validCount++;
+      }
+    }
+
+    // If at least 2 words and >= 80% are in the WCode dictionary
+    return validCount >= 2 && (validCount / tokens.length) >= 0.8;
+  }
+
+  function updateSwapButtonVisibility() {
+    if (!DOM.swapBtn) return;
+    if (state.mode === 'encode') {
+      const isWCode = isLikelyWCode(DOM.encodeInput.value);
+      DOM.swapBtn.classList.toggle('is-visible', isWCode);
+    } else {
+      DOM.swapBtn.classList.remove('is-visible');
+    }
   }
 
   function updateDecodeInputHeight() {
@@ -865,21 +915,29 @@
   }
 
   function swapMode() {
-    if (!state.currentResult) return;
     if (state.mode === 'encode') {
-      const words = state.currentResult.wcode;
-      const type = state.currentResult.type || 'auto';
+      const encodeVal = DOM.encodeInput.value.trim();
+      const words = encodeVal ? trimDecodeInput(encodeVal) : (state.currentResult ? state.currentResult.wcode : '');
+      const type = (state.currentResult && state.currentResult.type) ? state.currentResult.type : state.type;
       setMode('decode');
-      setType(type);
-      DOM.decodeInput.value = words;
-      executeTransform(true);
+      if (type) setType(type);
+      if (words) {
+        DOM.decodeInput.value = words;
+        updateDecodeInputHeight();
+        DOM.encodeInput.value = '';
+        executeTransform(true);
+      }
     } else {
-      const data = state.currentResult.data;
-      const type = state.currentResult.type || 'auto';
+      const decodeVal = DOM.decodeInput.value.trim();
+      const data = decodeVal ? decodeVal : (state.currentResult ? state.currentResult.data : '');
+      const type = (state.currentResult && state.currentResult.type) ? state.currentResult.type : state.type;
       setMode('encode');
-      setType(type);
-      DOM.encodeInput.value = data;
-      executeTransform(true);
+      if (type) setType(type);
+      if (data) {
+        DOM.encodeInput.value = data;
+        DOM.decodeInput.value = '';
+        executeTransform(true);
+      }
     }
   }
 

@@ -190,9 +190,11 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Output Toolbar Zero-Shift Tooltips**:
   - Toolbar action buttons at the bottom of the output section (`Copy`, `Speak`, `Share`, `Save`) are compact 38px circular icon buttons (`.tool-btn`).
   - Expanding text labels on hover are replaced by centered floating tooltips (`.action-tooltip`) positioned directly above each button (`bottom: calc(100% + 8px)`), eliminating all horizontal and vertical layout shifts.
-- **Subtle Swap Button (Primary Action Row)**:
+- **Subtle Swap Button (Contextual WCode Detection)**:
   - The mode swap control (`#tool-swap`) sits on the same horizontal line as the primary action button ("Encode to WCode" / "Decode WCode") within `.controls-bar-outside`.
-  - Styled as a subtle 36px circular icon button (`.action-btn-subtle`) with muted icon opacity at rest (`0.72`) and soft hover activation (`rgba(2, 132, 199, 0.08)` / dark `rgba(255, 255, 255, 0.08)`), equipped with a zero-shift tooltip ("Swap Mode").
+  - **Dynamic Visibility**: It remains completely hidden by default and only appears when the user is in **Encode mode** and the input in `#encode-input` is detected to be WCode (either framed by slashes `\ ... /` or having $\ge 2$ words with $\ge 80\%$ matching the 1,024-word dictionary).
+  - Styled as a subtle 36px circular icon button (`.action-btn-subtle`) with muted icon opacity at rest (`0.72`) and soft hover activation (`rgba(2, 132, 199, 0.08)` / dark `rgba(255, 255, 255, 0.08)`), equipped with a zero-shift tooltip ("Switch to Decode").
+  - Clicking it smoothly transfers the entered words to `#decode-input`, switches to decode mode, and triggers decoding.
 - **Keyboard Tab Navigation Flow**:
   - Pressing `Tab` from either input area (`#encode-input` in encode mode or `#decode-input` in decode mode) intentionally advances directly to the primary action button (`#action-btn-main`, "Encode to WCode" / "Decode WCode") rather than getting caught in the auxiliary clear/paste flank buttons, ensuring a rapid keyboard workflow.
 - **WCode Hero Display Trailing Slash Grouping**:

@@ -1318,7 +1318,7 @@ html.dark-mode .paste-bar-btn:focus-visible,
   fill: currentColor;
 }
 
-/* Subtle Action Button (Swap Mode on same horizontal line) */
+/* Subtle Action Button (Swap Mode on same horizontal line, hidden unless WCode detected) */
 .action-btn-subtle {
   position: relative;
   background: transparent;
@@ -1334,8 +1334,19 @@ html.dark-mode .paste-bar-btn:focus-visible,
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all var(--transition-fast);
   outline: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.action-btn-subtle.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
 }
 
 .action-btn-subtle svg {

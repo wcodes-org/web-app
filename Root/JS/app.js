@@ -133,6 +133,24 @@
     }
   };
 
+  const TYPE_TITLES = {
+    text: 'Text',
+    number: 'Number',
+    phone: 'Phone',
+    email: 'Email',
+    location: 'Location',
+    url: 'URL',
+    date: 'Date',
+    time: 'Time'
+  };
+
+  function getTypeTitle(type) {
+    if (!type) return 'Text';
+    const key = String(type).toLowerCase();
+    if (TYPE_TITLES[key]) return TYPE_TITLES[key];
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  }
+
   function initApp() {
     initDOM();
 
@@ -435,7 +453,7 @@
       DOM.encodeView.style.display = 'none';
       DOM.decodeView.style.display = 'block';
       DOM.actionBtnText.textContent = 'Decode WCode';
-      DOM.inputHeaderLabel.textContent = 'WCode words';
+      DOM.inputHeaderLabel.textContent = 'WCode';
       setTimeout(() => DOM.decodeInput.focus(), 50);
     }
   }
@@ -600,7 +618,7 @@
       DOM.decodeInput.value = rawWords;
       updateDecodeInputHeight();
       if (!rawWords) {
-        if (showErrorToast) showToast('Please enter WCode words to decode', 'warning');
+        if (showErrorToast) showToast('Please enter WCode to decode', 'warning');
         return;
       }
 
@@ -653,7 +671,7 @@
     DOM.encodeOutputView.style.display = 'none';
     DOM.decodeOutputView.style.display = 'block';
 
-    DOM.outputBadge.textContent = `Decoded ${res.type.toUpperCase()}`;
+    DOM.outputBadge.textContent = getTypeTitle(res.type);
     DOM.decodedText.textContent = res.data;
 
     // Type-specific action links
@@ -725,10 +743,11 @@
 
   async function shareResult() {
     if (!state.currentResult) return;
-    const title = state.mode === 'encode' ? 'WCode' : 'Decoded Data';
+    const typeTitle = getTypeTitle(state.currentResult.type);
+    const title = state.mode === 'encode' ? 'WCode' : typeTitle;
     const text = state.mode === 'encode'
       ? `WCode: ${state.currentResult.formatted}`
-      : `WCode Decoded: ${state.currentResult.data}`;
+      : `${typeTitle}: ${state.currentResult.data}`;
 
     if (navigator.share) {
       try {

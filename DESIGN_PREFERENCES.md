@@ -16,7 +16,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ## 2. Visual Hierarchy & Element Ranking
 - **Equivalence of Parallel Stages**:
   - Elements sharing the same functional rank must share identical visual styling.
-  - *Example*: The input label ("WCode words" / "Data to encode") and the output badge ("Decoded NUMBER" / "Encoded WCode") share identical pill geometry, typography, border-radius, background tinting, and uppercase letter-spacing so neither overpowers the other.
+  - *Example*: The input label ("WCode" / "Data to encode") and the output badge ("NUMBER" / "Encoded WCode") share identical pill geometry, typography, border-radius, background tinting, and uppercase letter-spacing so neither overpowers the other.
 
 ---
 
@@ -162,7 +162,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 
 ## 16. Studio Card De-Cluttering & Externalized Controls
 - **Flat Text Input Stage Header**:
-  - The input stage indicator ("Data to encode" / "WCode words") sits outside directly above `#studio-card` (`.studio-label-outside`) as flat uppercase text without pill borders, backgrounds, or button-like outlines, paired with contextual helper buttons (e.g. "My GPS", "Now") when active.
+  - The input stage indicator ("Data to encode" / "WCode") sits outside directly above `#studio-card` (`.studio-label-outside`) as flat uppercase text without pill borders, backgrounds, or button-like outlines, paired with contextual helper buttons (e.g. "My GPS", "Now") when active.
 - **Card-Internal Error Check & Centered External Action**:
   - **Error Check in Card**: The error check control is positioned within the input box region at the bottom of `#studio-card` (`.studio-card-options`), labeled simply **Error Check** (omitting technical "CRC-8" notation).
   - **Centered Primary Action**: The main action button ("Encode to WCode" / "Decode WCode") sits centered outside directly beneath the input card (`.controls-bar-outside`).

@@ -677,6 +677,19 @@
     DOM.outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  function createDecodedActionButton(href, label, svgPath, targetBlank = false) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.className = 'action-link-btn';
+    link.setAttribute('aria-label', label);
+    if (targetBlank) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    link.innerHTML = `<svg viewBox="0 0 24 24"><path d="${svgPath}"/></svg><span class="action-tooltip" role="tooltip">${label}</span>`;
+    return link;
+  }
+
   function renderDecodeOutput(res) {
     DOM.outputSection.classList.add('is-decoded');
     DOM.outputSection.prepend(DOM.outputBadge.parentElement);
@@ -690,42 +703,39 @@
     // Type-specific action links
     DOM.decodedMetaActions.innerHTML = '';
     if (res.type === 'phone') {
-      const callLink = document.createElement('a');
-      callLink.href = `tel:${res.data}`;
-      callLink.className = 'action-link-btn';
-      callLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z"/></svg>Call Phone`;
-      DOM.decodedMetaActions.appendChild(callLink);
-
-      const smsLink = document.createElement('a');
-      smsLink.href = `sms:${res.data}`;
-      smsLink.className = 'action-link-btn';
-      smsLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Send SMS`;
-      DOM.decodedMetaActions.appendChild(smsLink);
+      DOM.decodedMetaActions.appendChild(createDecodedActionButton(
+        `tel:${res.data}`,
+        'Call Phone',
+        'M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z'
+      ));
+      DOM.decodedMetaActions.appendChild(createDecodedActionButton(
+        `sms:${res.data}`,
+        'Send SMS',
+        'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'
+      ));
     } else if (res.type === 'url') {
       let href = res.data;
       if (!/^https?:\/\//i.test(href)) href = 'https://' + href;
-      const openLink = document.createElement('a');
-      openLink.href = href;
-      openLink.target = '_blank';
-      openLink.rel = 'noopener noreferrer';
-      openLink.className = 'action-link-btn';
-      openLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>Open URL`;
-      DOM.decodedMetaActions.appendChild(openLink);
+      DOM.decodedMetaActions.appendChild(createDecodedActionButton(
+        href,
+        'Open URL',
+        'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z',
+        true
+      ));
     } else if (res.type === 'email') {
-      const mailLink = document.createElement('a');
-      mailLink.href = `mailto:${res.data}`;
-      mailLink.className = 'action-link-btn';
-      mailLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Send Email`;
-      DOM.decodedMetaActions.appendChild(mailLink);
+      DOM.decodedMetaActions.appendChild(createDecodedActionButton(
+        `mailto:${res.data}`,
+        'Send Email',
+        'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'
+      ));
     } else if (res.type === 'location') {
       const coords = res.data.replace(/\s+/g, '');
-      const mapLink = document.createElement('a');
-      mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coords)}`;
-      mapLink.target = '_blank';
-      mapLink.rel = 'noopener noreferrer';
-      mapLink.className = 'action-link-btn';
-      mapLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>View on Google Maps`;
-      DOM.decodedMetaActions.appendChild(mapLink);
+      DOM.decodedMetaActions.appendChild(createDecodedActionButton(
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coords)}`,
+        'View on Google Maps',
+        'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z',
+        true
+      ));
     }
 
     state.currentResult = {

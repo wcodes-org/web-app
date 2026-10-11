@@ -25,6 +25,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Frequent action buttons in tight or focused workspaces rely on clear, standard SVG iconography without cluttering text labels.
   - **Paste Button**: Icon-only button with an accessible tooltip/title.
   - **Clear Button**: Icon-only button positioned directly beside the input field row.
+  - **Decoded Action Buttons**: Contextual actions for decoded payloads (e.g. Call Phone, Send SMS, Open URL, Send Email, View on Google Maps) use compact circular icon buttons with floating info tooltip labels positioned above them on hover or focus (`.action-tooltip` at `bottom: calc(100% + 8px)`), eliminating in-place label expansion and ensuring zero layout shift.
 - **Subtle Circle Hover Activation**:
   - The clear button rests completely transparent (no solid border or card fill) and activates a soft, subtle circular background on hover or keyboard focus (`rgba(0,0,0,0.05)` in light mode, `rgba(255,255,255,0.08)` in dark mode).
 

@@ -1666,36 +1666,104 @@ html.dark-mode .paste-bar-btn:focus-visible,
 }
 
 .decoded-meta-actions {
-  margin-top: 12px;
+  margin-top: 14px;
   display: flex;
   gap: 10px;
+  align-items: center;
   flex-wrap: wrap;
 }
 
 .action-link-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: var(--brand-light);
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  box-sizing: border-box;
+  background: var(--bg-card);
   color: var(--brand-primary);
-  padding: 8px 16px;
+  border: 1px solid var(--brand-border-subtle);
   border-radius: var(--radius-full);
-  font-size: 0.88rem;
-  font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
   transition: all var(--transition-fast);
 }
 
-.action-link-btn:hover {
+.action-link-btn:hover,
+.action-link-btn:focus-visible {
   background: var(--brand-primary);
   color: var(--text-inverse);
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  outline: none;
   text-decoration: none;
 }
 
 .action-link-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Info tooltip label above action button - zero layout shift */
+.action-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 30;
+}
+
+/* Tooltip caret / arrow pointing down to button */
+.action-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0 5px;
+  border-style: solid;
+  border-color: var(--bg-elevated) transparent transparent transparent;
+}
+
+.action-link-btn:hover .action-tooltip,
+.action-link-btn:focus-visible .action-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Dark mode overrides for tooltip */
+html.dark-mode .action-tooltip,
+[data-theme="dark"] .action-tooltip {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-mode .action-tooltip::after,
+[data-theme="dark"] .action-tooltip::after {
+  border-color: #1e293b transparent transparent transparent;
 }
 
 /* Output Toolbar (Copy, Share, Speak, Save, Swap) */

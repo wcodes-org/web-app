@@ -187,6 +187,9 @@ This document outlines the design principles, interaction patterns, and UI prefe
     - `Output: <count> word(s)`.
     - Verification state (`CRC-8 Verified` / `Standard`) subtly muted at the bottom.
   - Technical bit count and Base-1024 references are excluded.
+- **Output Toolbar Zero-Shift Tooltips**:
+  - Toolbar action buttons at the bottom of the output section (`Copy`, `Speak`, `Share`, `Save`, `Swap`) are compact 38px circular icon buttons (`.tool-btn`).
+  - Expanding text labels on hover are replaced by centered floating tooltips (`.action-tooltip`) positioned directly above each button (`bottom: calc(100% + 8px)`), eliminating all horizontal and vertical layout shifts.
 
 ---
 

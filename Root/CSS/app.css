@@ -1853,7 +1853,9 @@ html.dark-mode .encode-info-btn .action-tooltip::after,
 }
 
 .action-link-btn:hover .action-tooltip,
-.action-link-btn:focus-visible .action-tooltip {
+.action-link-btn:focus-visible .action-tooltip,
+.tool-btn:hover .action-tooltip,
+.tool-btn:focus-visible .action-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
@@ -1884,11 +1886,13 @@ html.dark-mode .action-tooltip::after,
 }
 
 .tool-btn {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   color: var(--text-muted); /* Gray accent instead of black */
-  padding: 8px 12px;
+  width: 38px;
   height: 38px;
+  padding: 0;
   box-sizing: border-box;
   border-radius: var(--radius-full);
   font-size: 0.82rem;
@@ -1897,7 +1901,7 @@ html.dark-mode .action-tooltip::after,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  flex-shrink: 0;
   transition: all var(--transition-fast);
 }
 
@@ -1906,17 +1910,7 @@ html.dark-mode .action-tooltip::after,
   height: 17px;
   fill: currentColor;
   flex-shrink: 0;
-}
-
-.tool-btn .tool-btn-label {
-  display: inline-block;
-  max-width: 0;
-  opacity: 0;
-  overflow: hidden;
-  white-space: nowrap;
   pointer-events: none;
-  transition: max-width 0.22s ease, opacity 0.2s ease, margin-left 0.22s ease;
-  margin-left: 0;
 }
 
 .tool-btn:hover,
@@ -1925,14 +1919,6 @@ html.dark-mode .action-tooltip::after,
   border-color: var(--brand-primary);
   color: var(--brand-primary);
   transform: translateY(-1px);
-}
-
-.tool-btn:hover .tool-btn-label,
-.tool-btn:focus-visible .tool-btn-label {
-  max-width: 80px;
-  opacity: 1;
-  margin-left: 6px;
-  pointer-events: auto;
 }
 
 /* History / Saved Drawer */

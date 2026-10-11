@@ -2287,7 +2287,13 @@ html.dark-mode .info-format-badge span {
 }
 
 .info-format-badge span:first-child,
-.info-format-badge span:last-child {
+.info-format-badge span:last-child,
+html.dark-mode .info-format-badge span:first-child,
+html.dark-mode .info-format-badge span:last-child,
+.info-format-example span:nth-child(2),
+.info-format-example span:last-child,
+html.dark-mode .info-format-example span:nth-child(2),
+html.dark-mode .info-format-example span:last-child {
   background: transparent;
   color: #999;
 }

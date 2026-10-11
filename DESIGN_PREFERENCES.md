@@ -193,6 +193,8 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Subtle Swap Button (Primary Action Row)**:
   - The mode swap control (`#tool-swap`) sits on the same horizontal line as the primary action button ("Encode to WCode" / "Decode WCode") within `.controls-bar-outside`.
   - Styled as a subtle 36px circular icon button (`.action-btn-subtle`) with muted icon opacity at rest (`0.72`) and soft hover activation (`rgba(2, 132, 199, 0.08)` / dark `rgba(255, 255, 255, 0.08)`), equipped with a zero-shift tooltip ("Swap Mode").
+- **Keyboard Tab Navigation Flow**:
+  - Pressing `Tab` from either input area (`#encode-input` in encode mode or `#decode-input` in decode mode) intentionally advances directly to the primary action button (`#action-btn-main`, "Encode to WCode" / "Decode WCode") rather than getting caught in the auxiliary clear/paste flank buttons, ensuring a rapid keyboard workflow.
 
 ---
 

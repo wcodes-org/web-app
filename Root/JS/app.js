@@ -213,12 +213,22 @@
 
     // Input handlers
     DOM.encodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab' && !e.shiftKey) {
+        e.preventDefault();
+        DOM.actionBtn.focus();
+        return;
+      }
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         executeTransform(true);
       }
     });
 
     DOM.decodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab' && !e.shiftKey) {
+        e.preventDefault();
+        DOM.actionBtn.focus();
+        return;
+      }
       if (((e.ctrlKey || e.metaKey) && e.key === 'Enter') || (e.key === 'Enter' && !e.shiftKey)) {
         e.preventDefault();
         executeTransform(true);

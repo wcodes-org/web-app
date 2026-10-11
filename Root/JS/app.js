@@ -239,7 +239,12 @@
       DOM.decodeInput.value = trimDecodeInput(value);
       const position = Math.max(0, Math.min(DOM.decodeInput.value.length, caret - leadingLength));
       DOM.decodeInput.setSelectionRange(position, position);
-      handleDecodeSuggestions();
+      updateDecodeInputHeight();
+      DOM.suggestionsBox.innerHTML = '';
+      const tokens = DOM.decodeInput.value.trim().split(/\s+/).filter(Boolean);
+      if (tokens.length >= 3) {
+        executeTransform(false);
+      }
     });
 
     new ResizeObserver(updateDecodeInputHeight).observe(DOM.decodeInput);
@@ -265,7 +270,8 @@
           DOM.encodeInput.value = text;
         } else {
           DOM.decodeInput.value = trimDecodeInput(text);
-          handleDecodeSuggestions();
+          updateDecodeInputHeight();
+          DOM.suggestionsBox.innerHTML = '';
         }
         executeTransform(true);
         showToast('Pasted from clipboard');
@@ -433,6 +439,7 @@
     if (state.mode === newMode) return;
     state.mode = newMode;
     updateModeUI();
+    DOM.suggestionsBox.innerHTML = '';
     DOM.outputSection.style.display = 'none';
   }
 
@@ -548,6 +555,11 @@
   // Autocomplete / Suggestions for Decode Mode
   function handleDecodeSuggestions() {
     updateDecodeInputHeight();
+    const rawVal = DOM.decodeInput.value.replace(/[\/\\]+$/, '');
+    if (/\s$/.test(rawVal)) {
+      DOM.suggestionsBox.innerHTML = '';
+      return;
+    }
     const text = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '');
     const tokens = text.toLowerCase().split(/\s+/);
     const lastToken = tokens[tokens.length - 1];
@@ -617,6 +629,7 @@
       const rawWords = DOM.decodeInput.value.replace(/^[\s\\/\-]+|[\s\\/\-]+$/g, '').trim();
       DOM.decodeInput.value = rawWords;
       updateDecodeInputHeight();
+      DOM.suggestionsBox.innerHTML = '';
       if (!rawWords) {
         if (showErrorToast) showToast('Please enter WCode to decode', 'warning');
         return;

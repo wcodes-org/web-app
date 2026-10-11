@@ -665,13 +665,16 @@
     });
 
     DOM.heroDisplay.innerHTML += `<span class="hero-slash">/</span>`;
-    const wordsLabel = `${res.wordCount} ${res.wordCount === 1 ? 'word' : 'words'}`;
-    const statsText = `${wordsLabel} and ${res.bitCount} bits encoded • ${res.hasChecksum ? 'CRC-8 Verified' : 'Standard'}`;
+    const inputSymbols = Array.from(res.input != null ? String(res.input) : '').length;
+    const inputLabel = `${inputSymbols} ${inputSymbols === 1 ? 'symbol' : 'symbols'}`;
+    const outputWordsLabel = `${res.wordCount} ${res.wordCount === 1 ? 'word' : 'words'}`;
+    const statusLabel = res.hasChecksum ? 'CRC-8 Verified' : 'Standard';
+    
     if (DOM.outputStats) {
-      DOM.outputStats.textContent = statsText;
+      DOM.outputStats.innerHTML = `<span class="tooltip-line">Input: ${inputLabel}</span><span class="tooltip-line">Output: ${outputWordsLabel}</span><span class="tooltip-line tooltip-muted">${statusLabel}</span>`;
     }
     if (DOM.encodeInfoBtn) {
-      DOM.encodeInfoBtn.setAttribute('aria-label', statsText);
+      DOM.encodeInfoBtn.setAttribute('aria-label', `Input: ${inputLabel}, Output: ${outputWordsLabel}, ${statusLabel}`);
     }
     
     state.currentResult = {

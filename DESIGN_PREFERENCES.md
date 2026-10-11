@@ -180,10 +180,16 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - The standalone theme selector is removed from the footer, leaving the bottom actions bar cleanly dedicated to the Info icon on the left, centered copyright and WCode author trigger, and History/Saved drawer toggle on the right.
 - **Root Bottom Copyright & Modal Parity**:
   - The copyright notice (`Copyright © 2026`) and author brand trigger (`WCode`) sit at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
-  - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links (including `wolo.codes`), downloads, app store (accurately labeled for the Wolo app on Google Play), credits, and disclaimer.
-  - Info modal references the canonical vector brand asset (`/resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
+- **Encode Info Tooltip**:
+  - The encoded output box features a discreet circular "i" info icon (`#encode-info-btn`) positioned in the bottom-right corner.
+  - Hovering or keyboard focusing reveals a multiline floating tooltip (`.action-tooltip` with `.tooltip-line`):
+    - `Input: <count> symbol(s)` (measuring input length with Unicode/surrogate safety).
+    - `Output: <count> word(s)`.
+    - Verification state (`CRC-8 Verified` / `Standard`) subtly muted at the bottom.
+  - Technical bit count and Base-1024 references are excluded.
 
 ---
+
 
 ## 17. Location Mode Dedicated App Alternate (Wolo Code)
 - **Contextual Discovery in Location Mode**:

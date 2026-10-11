@@ -1691,13 +1691,31 @@ html.dark-mode .paste-bar-btn:focus-visible,
   font-weight: 600;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  padding: 5px 12px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
   z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.encode-info-btn .action-tooltip .tooltip-line {
+  display: block;
+  line-height: 1.35;
+}
+
+.encode-info-btn .action-tooltip .tooltip-muted {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  margin-top: 2px;
+  padding-top: 2px;
 }
 
 .encode-info-btn .action-tooltip::after {
@@ -1725,6 +1743,12 @@ html.dark-mode .encode-info-btn .action-tooltip,
   color: #f8fafc;
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-mode .encode-info-btn .action-tooltip .tooltip-muted,
+[data-theme="dark"] .encode-info-btn .action-tooltip .tooltip-muted {
+  color: #94a3b8;
+  border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 html.dark-mode .encode-info-btn .action-tooltip::after,

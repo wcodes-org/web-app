@@ -1677,6 +1677,14 @@ html.dark-mode .action-btn-subtle:focus-visible,
   user-select: none;
 }
 
+.wcode-last-word-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .wcode-word-pill {
   background: var(--bg-card);
   padding: 4px 14px;

@@ -665,16 +665,30 @@
     DOM.outputBadge.textContent = 'WCode';
     DOM.heroDisplay.innerHTML = `<span class="hero-slash">\\</span>`;
     
-    res.words.forEach(word => {
+    res.words.forEach((word, idx) => {
       const pill = document.createElement('span');
       pill.className = 'wcode-word-pill';
       pill.textContent = word;
       pill.title = 'Click to speak word';
       pill.addEventListener('click', () => speakWord(word));
-      DOM.heroDisplay.appendChild(pill);
+
+      // Group the last word with the trailing slash so the slash never wraps alone
+      if (idx === res.words.length - 1) {
+        const lastGroup = document.createElement('span');
+        lastGroup.className = 'wcode-last-word-group';
+        lastGroup.appendChild(pill);
+
+        const trailingSlash = document.createElement('span');
+        trailingSlash.className = 'hero-slash';
+        trailingSlash.textContent = '/';
+        lastGroup.appendChild(trailingSlash);
+
+        DOM.heroDisplay.appendChild(lastGroup);
+      } else {
+        DOM.heroDisplay.appendChild(pill);
+      }
     });
 
-    DOM.heroDisplay.innerHTML += `<span class="hero-slash">/</span>`;
     const inputSymbols = Array.from(res.input != null ? String(res.input) : '').length;
     const inputLabel = `${inputSymbols} ${inputSymbols === 1 ? 'symbol' : 'symbols'}`;
     const outputWordsLabel = `${res.wordCount} ${res.wordCount === 1 ? 'word' : 'words'}`;

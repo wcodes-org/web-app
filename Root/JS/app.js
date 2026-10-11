@@ -48,6 +48,7 @@
     DOM.decodeOutputView = document.getElementById('decode-output-view');
     DOM.heroDisplay = document.getElementById('wcode-hero-display');
     DOM.outputStats = document.getElementById('output-stats');
+    DOM.encodeInfoBtn = document.getElementById('encode-info-btn');
     DOM.decodedText = document.getElementById('decoded-text');
     DOM.decodedMetaActions = document.getElementById('decoded-meta-actions');
     
@@ -646,12 +647,12 @@
 
   function renderEncodeOutput(res) {
     DOM.outputSection.classList.remove('is-decoded');
-    DOM.outputSection.querySelector('.output-card').prepend(DOM.outputBadge.parentElement);
+    DOM.outputSection.prepend(DOM.outputBadge.parentElement);
     DOM.outputSection.style.display = 'block';
     DOM.encodeOutputView.style.display = 'block';
     DOM.decodeOutputView.style.display = 'none';
 
-    DOM.outputBadge.textContent = `${res.wordCount} words • Base-1024`;
+    DOM.outputBadge.textContent = 'WCode';
     DOM.heroDisplay.innerHTML = `<span class="hero-slash">\\</span>`;
     
     res.words.forEach(word => {
@@ -664,7 +665,14 @@
     });
 
     DOM.heroDisplay.innerHTML += `<span class="hero-slash">/</span>`;
-    DOM.outputStats.textContent = `${res.bitCount} bits encoded • ${res.hasChecksum ? 'CRC-8 Verified' : 'Standard'}`;
+    const wordsLabel = `${res.wordCount} ${res.wordCount === 1 ? 'word' : 'words'}`;
+    const statsText = `${wordsLabel} and ${res.bitCount} bits encoded • ${res.hasChecksum ? 'CRC-8 Verified' : 'Standard'}`;
+    if (DOM.outputStats) {
+      DOM.outputStats.textContent = statsText;
+    }
+    if (DOM.encodeInfoBtn) {
+      DOM.encodeInfoBtn.setAttribute('aria-label', statsText);
+    }
     
     state.currentResult = {
       mode: 'encode',

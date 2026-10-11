@@ -16,7 +16,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 ## 2. Visual Hierarchy & Element Ranking
 - **Equivalence of Parallel Stages**:
   - Elements sharing the same functional rank must share identical visual styling.
-  - *Example*: The input label ("WCode" / "Data to encode") and the output badge ("NUMBER" / "Encoded WCode") share identical pill geometry, typography, border-radius, background tinting, and uppercase letter-spacing so neither overpowers the other.
+  - *Example*: The input label ("WCode" / "Email address" / "Data to encode") and the output section label ("WCode" / "Email" / "Number") share identical flat text geometry, typography, and uppercase letter-spacing outside the cards so neither overpowers the other.
 
 ---
 
@@ -26,6 +26,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - **Paste Button**: Icon-only button with an accessible tooltip/title.
   - **Clear Button**: Icon-only button positioned directly beside the input field row.
   - **Decoded Action Buttons**: Contextual actions for decoded payloads (e.g. Call Phone, Send SMS, Open URL, Send Email, View on Google Maps) use compact circular icon buttons with floating info tooltip labels positioned above them on hover or focus (`.action-tooltip` at `bottom: calc(100% + 8px)`), eliminating in-place label expansion and ensuring zero layout shift.
+  - **Encode Output Info Button**: Encoding metrics (word count, bit count, checksum verification) are housed in a subtle circular "i" icon button pinned to the bottom-right of the encoded box, displaying the full metric breakdown via a floating info tooltip label (`.action-tooltip`) on hover or focus without cluttering the main words display.
 - **Subtle Circle Hover Activation**:
   - The clear button rests completely transparent (no solid border or card fill) and activates a soft, subtle circular background on hover or keyboard focus (`rgba(0,0,0,0.05)` in light mode, `rgba(255,255,255,0.08)` in dark mode).
 
@@ -167,7 +168,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Card-Internal Error Check & Centered External Action**:
   - **Error Check in Card**: The error check control is positioned within the input box region at the bottom of `#studio-card` (`.studio-card-options`), labeled simply **Error Check** (omitting technical "CRC-8" notation).
   - **Centered Primary Action**: The main action button ("Encode to WCode" / "Decode WCode") sits centered outside directly beneath the input card (`.controls-bar-outside`).
-  - **Output Section**: The output area (`#output-section`) renders as an independent card beneath the centered action button.
+  - **Output Section**: The output area (`#output-section`) renders beneath the centered action button with its stage indicator ("WCode" in encode mode, format type in decode mode) placed outside directly above `.output-card`, perfectly mirroring the input card's outside stage indicator.
 - **Right-Flank Input Actions**:
   - Clear and Paste buttons are vertically stacked beside the input field in `.input-actions-flank` matching the exact 104px height:
     - **Clear button (`#btn-clear`)**: Pinned to the top-right edge.

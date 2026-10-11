@@ -178,7 +178,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - The standalone theme selector is removed from the footer, leaving the bottom actions bar cleanly dedicated to the Info icon on the left, centered copyright and WCode author trigger, and History/Saved drawer toggle on the right.
 - **Root Bottom Copyright & Modal Parity**:
   - The copyright notice (`Copyright © 2026`) and author brand trigger (`WCode`) sit at the bottom center of the root page (`#footer-copyright` within `#footer-actions-bar`), cleanly balanced between the bottom-left Info icon and bottom-right Bookmark control.
-  - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links, downloads, app store, credits, and disclaimer.
+  - Clicking `WCode` triggers the dedicated **Links & Credits Modal** (`#links-modal`) showcasing external links (including `wolo.codes`), downloads, app store (accurately labeled for the Wolo app on Google Play), credits, and disclaimer.
   - Info modal references the canonical vector brand asset (`/resource/logo_full.svg`) and provides a circular, borderless close button (`.icon-btn`).
 
 ---

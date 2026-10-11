@@ -2443,6 +2443,16 @@ html.dark-mode .info-format-example span:last-child {
   margin-right: 4px;
 }
 
+#download-wolo-label {
+  text-align: center;
+  font-size: 0.88rem;
+  margin: 6px 0 2px;
+}
+
+#download-wolo-label span {
+  color: var(--text-muted);
+}
+
 #download-android-bottom {
   display: flex;
   justify-content: center;

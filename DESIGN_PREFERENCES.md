@@ -190,11 +190,13 @@ This document outlines the design principles, interaction patterns, and UI prefe
 - **Output Toolbar Zero-Shift Tooltips**:
   - Toolbar action buttons at the bottom of the output section (`Copy`, `Speak`, `Share`, `Save`) are compact 38px circular icon buttons (`.tool-btn`).
   - Expanding text labels on hover are replaced by centered floating tooltips (`.action-tooltip`) positioned directly above each button (`bottom: calc(100% + 8px)`), eliminating all horizontal and vertical layout shifts.
-- **Subtle Swap Button (Contextual WCode Detection)**:
-  - The mode swap control (`#tool-swap`) sits on the same horizontal line as the primary action button ("Encode to WCode" / "Decode WCode") within `.controls-bar-outside`.
-  - **Dynamic Visibility**: It remains completely hidden by default and only appears when the user is in **Encode mode** and the input in `#encode-input` is detected to be WCode (either framed by slashes `\ ... /` or having $\ge 2$ words with $\ge 80\%$ matching the 1,024-word dictionary).
-  - Styled as a subtle 36px circular icon button (`.action-btn-subtle`) with muted icon opacity at rest (`0.72`) and soft hover activation (`rgba(2, 132, 199, 0.08)` / dark `rgba(255, 255, 255, 0.08)`), equipped with a zero-shift tooltip ("Switch to Decode").
-  - Clicking it smoothly transfers the entered words to `#decode-input`, switches to decode mode, and triggers decoding.
+- **Contextual Switch to Decode Pill Button**:
+  - Located in the right corner of the studio card header (`.studio-label-outside` / `.studio-label-actions`), directly above the input box on the same horizontal line as `DATA TO ENCODE`.
+  - **Dynamic Visibility**: Completely hidden by default (`display: none`). Only appears as an interactive pill button (`.swap-pill-btn.is-visible`) when in **Encode mode** and the input in `#encode-input` is detected to be WCode (either framed by slashes `\ ... /` or having $\ge 2$ words with $\ge 80\%$ matching the 1,024-word dictionary).
+  - Explicitly labeled `[ ⇄ Switch to Decode ]` with clear brand styling and rotating icon interaction, providing immediate visual assist right where the user is looking without layout shifts.
+  - Clicking it smoothly transfers the detected words to `#decode-input`, switches to decode mode, clears the encode input, and triggers decoding.
+  - **Centered Primary Action Button**:
+    - With the swap assist moved to the studio card header, the primary action button (`#action-btn-main`, "Decode WCode" / "Encode to WCode") in `.controls-bar-outside` is the sole element in the row, ensuring mathematically perfect horizontal centering across all screen sizes with zero lopsided offset.
 - **Keyboard Tab Navigation Flow**:
   - Pressing `Tab` from either input area (`#encode-input` in encode mode or `#decode-input` in decode mode) intentionally advances directly to the primary action button (`#action-btn-main`, "Encode to WCode" / "Decode WCode") rather than getting caught in the auxiliary clear/paste flank buttons, ensuring a rapid keyboard workflow.
 - **WCode Hero Display Trailing Slash Grouping**:

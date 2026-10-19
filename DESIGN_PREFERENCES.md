@@ -1,4 +1,4 @@
-# User Design Preferences & UI Guidelines
+﻿# User Design Preferences & UI Guidelines
 
 This document outlines the design principles, interaction patterns, and UI preferences established for the WCode web application and site ecosystem.
 
@@ -150,7 +150,7 @@ This document outlines the design principles, interaction patterns, and UI prefe
   - Displays the cookie & privacy acceptance notice with a prominent cyan circular Proceed button (`.button_highlight` with forward arrow SVG).
   - Clicking Proceed sets `localStorage.note_version = CURRENT_NOTE_VERSION` and dismisses the prompt.
 - **Full Info Window on Demand**:
-  - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, step-by-step usage guide, back/close control, and direct link to `wcode.codes/about`.
+  - Subsequent access via the bottom-left Info icon opens the full information card (`#info-full`): format overview (`\ Word 1 Word 2 Word 3 /`), 1024-word tech specs, CRC-8 error detection, step-by-step usage guide, back/close control, and direct link to `wcodes.org/about`.
 - **Version Indicator (Wolo Parity)**:
   - Bottom-right corner version toggle (`#info_version_indicator`) showing short version `v1.1.1` at rest.
   - Hover or focus expands width to full version `v1.1.1.1` and displays elapsed time under it (hovering elapsed time reveals UTC timestamp).

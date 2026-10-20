@@ -30,6 +30,7 @@
     DOM.encodeInput = document.getElementById('encode-input');
     DOM.decodeInput = document.getElementById('decode-input');
     DOM.phoneGroup = document.getElementById('phone-group');
+    DOM.countryCodeToggle = document.getElementById('country-code-toggle');
     DOM.countryCode = document.getElementById('country-code');
     DOM.suggestionsBox = document.getElementById('suggestions-box');
     
@@ -199,6 +200,12 @@
         setType(pill.dataset.type);
       });
     });
+
+    DOM.countryCodeToggle.addEventListener('change', () => {
+      DOM.countryCode.disabled = !DOM.countryCodeToggle.checked;
+      executeTransform(false);
+    });
+    DOM.countryCode.addEventListener('input', () => executeTransform(false));
 
     // Checksum toggle
     DOM.checksumToggle.addEventListener('change', (e) => {
@@ -673,7 +680,7 @@
         return;
       }
 
-      if (state.type === 'phone') {
+      if (state.type === 'phone' && DOM.countryCodeToggle.checked) {
         const cc = DOM.countryCode.value.replace(/[^\d]/g, '');
         if (cc && !rawInput.startsWith('+') && /^[\d\s().-]+$/.test(rawInput)) {
           rawInput = '+' + cc + rawInput;

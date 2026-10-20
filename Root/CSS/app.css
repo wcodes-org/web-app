@@ -1182,6 +1182,8 @@ html.dark-mode .paste-bar-btn:focus-visible,
 /* Secondary Inputs: Phone prefix, etc. */
 .phone-input-group {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -2998,4 +3000,15 @@ html.dark-mode .button_highlight:hover {
   border: none;
   border-radius: 0;
   padding: 0;
+}
+
+.country-code-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.country-code-field:disabled {
+  opacity: 0.5;
 }

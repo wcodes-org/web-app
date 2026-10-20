@@ -675,8 +675,8 @@
 
       if (state.type === 'phone') {
         const cc = DOM.countryCode.value.replace(/[^\d]/g, '');
-        if (cc && !rawInput.startsWith(cc)) {
-          rawInput = cc + rawInput;
+        if (cc && !rawInput.startsWith('+') && /^[\d\s().-]+$/.test(rawInput)) {
+          rawInput = '+' + cc + rawInput;
         }
       }
 

@@ -17,3 +17,5 @@ Technology:
 - Hosting: Firebase Hosting (served at root `/`, merged with site at `/about`)
 - Dictionary: 1024 distinct nouns (10 bits per word), canonical source at [`https://wordlist.wcodes.org`](https://wordlist.wcodes.org)
 - Platform: Vanilla JavaScript & Modern CSS
+
+Phone encoding: [format and measured word counts](docs/encoding/phone-number.md). Run `node tests/phone-codec.test.cjs` for codec regression checks. New compact phone WCodes require a client with phone codec v1 support.

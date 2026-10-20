@@ -1,7 +1,7 @@
 /**
  * WCode Core Engine
  * Bit-level encoding and decoding implementation of WCode Base-1024
- * Matches C++ (Windows) and Java (Android) specifications.
+ * Legacy byte transport matches C++/Java; typed phone payloads require codec v1.
  */
 (function(global) {
   'use strict';
@@ -70,6 +70,58 @@
       hex += bytes[i].toString(16).padStart(2, '0');
     }
     return BigInt('0x' + hex);
+  }
+
+  // 0xFF is impossible in a valid UTF-8 payload. The next byte versions the codec.
+  const PHONE_MARKER = [0xFF, 0x01];
+  const DIAL_ALPHABET = '0123456789*#,;';
+
+  function normalizePhone(raw) {
+    const value = String(raw).trim().replace(/[\s().-]/g, '');
+    if (!/^\+?[0-9*#,;]+$/.test(value) || !/[0-9]/.test(value)) {
+      throw new Error('Enter digits with an optional leading + and dial controls * # , ;');
+    }
+    if (value.length > 257) throw new Error('Dial strings are limited to 256 symbols');
+    return value;
+  }
+
+  function encodePhone(raw) {
+    const normalized = normalizePhone(raw);
+    const plus = normalized.startsWith('+');
+    const body = plus ? normalized.slice(1) : normalized;
+    if (body.length > 256) throw new Error('Dial strings are limited to 256 symbols');
+    const extended = /[*#,;]/.test(body);
+    const radix = extended ? 14n : 10n;
+    // Bijective digits (1..radix), minus one: dense ranks for all nonempty strings.
+    let rank = 0n;
+    for (const symbol of body) rank = rank * radix + BigInt(DIAL_ALPHABET.indexOf(symbol) + 1);
+    const packed = ((rank - 1n) << 2n) | BigInt((extended ? 2 : 0) + (plus ? 1 : 0));
+    let hex = packed.toString(16);
+    if (hex.length % 2) hex = '0' + hex;
+    const bytes = new Uint8Array(2 + hex.length / 2);
+    bytes.set(PHONE_MARKER);
+    for (let i = 0; i < hex.length; i += 2) bytes[2 + i / 2] = parseInt(hex.slice(i, i + 2), 16);
+    return { bytes, normalized };
+  }
+
+  function decodePhone(bytes) {
+    if (bytes.length < 3 || bytes[1] !== PHONE_MARKER[1]) throw new Error('Unsupported phone encoding version');
+    if (bytes.length > 125 || (bytes.length > 3 && bytes[2] === 0)) throw new Error('Invalid phone payload');
+    const packed = bytesToBigInt(bytes.slice(2));
+    const mode = Number(packed & 3n);
+    const radix = mode & 2 ? 14n : 10n;
+    let rank = (packed >> 2n) + 1n;
+    let body = '';
+    while (rank > 0n) {
+      rank -= 1n;
+      body = DIAL_ALPHABET[Number(rank % radix)] + body;
+      rank /= radix;
+      if (body.length > 256) throw new Error('Invalid phone payload');
+    }
+    const value = (mode & 1 ? '+' : '') + body;
+    const canonical = encodePhone(value).bytes;
+    if (canonical.length !== bytes.length || canonical.some((v, i) => v !== bytes[i])) throw new Error('Noncanonical phone payload');
+    return value;
   }
 
   class WCodeCore {
@@ -267,19 +319,25 @@
         effectiveType = this.detectType(str);
       }
 
-      // Encode payload uniformly as UTF-8 string bytes
-      // Matches Android AUTO_DOT & NUMBER_DOT spec (input.getText().toString().getBytes())
-      // Ensures lossless bidirectional round-trip across all data types
-      const bytes = textToBytes(str);
-      const result = this.encode(bytes);
+      // Preserve legacy UTF-8 for other types; phones choose the shorter wire format.
+      const phone = effectiveType === 'phone' ? encodePhone(str) : null;
+      const bytes = phone ? phone.bytes : textToBytes(str);
+      let result = this.encode(bytes);
+      if (phone) {
+        const legacy = this.encode(textToBytes(phone.normalized));
+        if (legacy.wordCount <= result.wordCount) result = legacy;
+      }
       result.type = effectiveType;
-      result.input = input;
+      result.input = phone ? phone.normalized : input;
       return result;
     }
 
     decodeByType(type, message, options = {}) {
       type = (type || 'auto').toLowerCase();
       const bytes = this.decode(message);
+      if (bytes[0] === PHONE_MARKER[0]) {
+        return { type: 'phone', data: decodePhone(bytes), bytes };
+      }
 
       // Attempt UTF-8 text decoding first
       let text = null;
@@ -331,6 +389,9 @@
       }
       if (/^\d{2}:\d{2}(:\d{2})?$/.test(str)) {
         return 'time';
+      }
+      if (/^\+?[0-9\s().*#,;-]+$/.test(str) && /[+*#;]/.test(str) && /\d/.test(str)) {
+        return 'phone';
       }
       if (/^\d{1,18}$/.test(str)) {
         return 'number';

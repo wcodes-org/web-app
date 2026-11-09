@@ -8,6 +8,13 @@ assert.equal(dict.getWord(235), 'comet');
 assert.equal(dict.getIndex('death'), dict.getIndex('comet'));
 assert.equal(dict.getIndex(' Death '), 235);
 assert.ok(!dict.suggest('dea').includes('death'));
+assert.equal(Object.keys(dict.RETIRED).length, 28);
+// Final v4 words (after the Codex review); unpublished drafts are not aliases.
+for (const [old, word, i] of [['lead', 'crystal', 468], ['prison', 'burger', 685], ['rifle', 'puzzle', 720], ['trouser', 'microphone', 934], ['wind', 'sunrise', 1000], ['wound', 'sticker', 1014]]) {
+  assert.equal(dict.getWord(i), word);
+  assert.equal(dict.getIndex(old), i);
+}
+for (const draft of ['capsule', 'diagram', 'textile', 'emblem']) assert.ok(!(draft in dict.RETIRED) && !dict.WORDS.includes(draft), draft);
 for (const word of Object.keys(dict.RETIRED)) {
   assert.equal(dict.getIndex(word), dict.RETIRED[word]);
   assert.ok(!dict.WORDS.includes(word), word + ' must not be encoded');

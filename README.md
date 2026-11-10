@@ -24,4 +24,4 @@ Phone encoding: [format and measured word counts](docs/encoding/phone-number.md)
 License
 =======
 
-This software is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). See [LICENSE](LICENSE). The wordlist itself is maintained in [wcodes-org/wordlist](https://github.com/wcodes-org/wordlist) and is licensed separately (data and docs: CC BY 4.0; code: Apache-2.0).
+This software is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). See [LICENSE](LICENSE). The wordlist itself is maintained in [wcodes-org/wordlist](https://github.com/wcodes-org/wordlist) and is licensed separately (data and docs: CC0 1.0 public domain; code: Apache-2.0).

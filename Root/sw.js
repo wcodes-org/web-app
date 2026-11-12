@@ -1,5 +1,5 @@
 // WCode Service Worker for offline capability
-const CACHE_NAME = 'wcode-v6';
+const CACHE_NAME = 'wcode-v7';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

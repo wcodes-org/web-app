@@ -1,14 +1,17 @@
-// A code written with a retired word (wordlist v3) decodes exactly like one with its replacement (v4).
+// A code written with a retired word decodes exactly like one with its current replacement.
 const assert = require('node:assert/strict');
 const { Core } = require('../Root/JS/wcode-core.js');
 const dict = require('../Root/JS/wordlist.js');
 
-assert.equal(dict.version, 4);
+assert.equal(dict.version, 5);
 assert.equal(dict.getWord(235), 'comet');
 assert.equal(dict.getIndex('death'), dict.getIndex('comet'));
 assert.equal(dict.getIndex(' Death '), 235);
 assert.ok(!dict.suggest('dea').includes('death'));
-assert.equal(Object.keys(dict.RETIRED).length, 28);
+assert.equal(Object.keys(dict.RETIRED).length, 29);
+assert.equal(dict.getWord(436), 'pretzel');
+assert.equal(dict.getIndex('jeep'), 436);
+assert.ok(!dict.suggest('jee').includes('jeep'));
 // Final v4 words (after the Codex review); unpublished drafts are not aliases.
 for (const [old, word, i] of [['lead', 'crystal', 468], ['prison', 'burger', 685], ['rifle', 'puzzle', 720], ['trouser', 'microphone', 934], ['wind', 'sunrise', 1000], ['wound', 'sticker', 1014]]) {
   assert.equal(dict.getWord(i), word);
@@ -38,4 +41,4 @@ for (const checksum of [false, true]) {
   assert.ok(found > 0, 'no sample code contained comet');
 
 }
-console.log("Wordlist aliases: a code with 'death' decodes the same as one with 'comet'; encoder uses only v4 words");
+console.log('Wordlist aliases: retired words still decode and the encoder uses only current words');
